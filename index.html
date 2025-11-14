@@ -907,11 +907,8 @@
     function loadTrack(index) {
       currentTrackIndex = index;
       const track = tracks[index];
-      // URL encode the file path to handle special characters like curly quotes
-      const encodedPath = track.file.split('/').map(part => 
-        encodeURIComponent(part).replace(/%20/g, ' ')
-      ).join('/');
-      audio.src = encodedPath;
+      // Use the file path directly - browser will handle encoding
+      audio.src = track.file;
       
       // Update playlist UI
       playlistItems.forEach((item, i) => {
@@ -924,7 +921,7 @@
       }
       
       // Log for debugging
-      console.log('Loading track:', track.title, 'Path:', encodedPath);
+      console.log('Loading track:', track.title, 'Path:', track.file);
     }
 
     // Format time
