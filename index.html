@@ -474,7 +474,8 @@
     <h3>CDA Pool Leagues · Thursday League · Night Life</h3>
 
     <div class="album-art-wrapper">
-      <div style="width: 400px; height: 400px; background: linear-gradient(135deg, #0d4d0d, #1a6b1a); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: #daa520; text-shadow: 0 0 20px rgba(218, 165, 32, 0.5);">🎱</div>
+      <img src="images/callit.png" alt="Call It Corner Album Art" class="album-art" id="albumArt" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <div style="width: 400px; height: 400px; background: linear-gradient(135deg, #0d4d0d, #1a6b1a); border-radius: 8px; display: none; align-items: center; justify-content: center; font-size: 4rem; color: #daa520; text-shadow: 0 0 20px rgba(218, 165, 32, 0.5);">🎱</div>
       <div class="clickable-corner" id="corner1" style="top: 15%; left: 10%;"></div>
       <div class="clickable-corner" id="corner2" style="top: 60%; right: 15%;"></div>
       <div class="clickable-corner" id="corner3" style="bottom: 20%; left: 25%;"></div>
@@ -495,26 +496,16 @@
 
     <div class="player-container">
       <div class="playlist-container">
-        <h4 style="color: #daa520; margin-top: 0;">Playlist</h4>
+        <h4 style="color: #daa520; margin-top: 0;">Now Playing</h4>
         <div class="playlist-item active" data-track="0">
           <div class="playlist-item-title">Call It Corner (Optimized)</div>
           <div class="playlist-item-subtitle">Thursday League · CDA Night Life</div>
         </div>
-        <div class="playlist-item" data-track="1">
-          <div class="playlist-item-title">Two Rails and a Promise</div>
-          <div class="playlist-item-subtitle">CDA Pool Leagues</div>
-        </div>
-        <div class="playlist-item" data-track="2">
-          <div class="playlist-item-title">Call It Corner (Sherman Ave)</div>
-          <div class="playlist-item-subtitle">CDA Pool Leagues</div>
-        </div>
       </div>
 
       <div class="control-buttons">
-        <button id="prevBtn">⏮ Prev</button>
         <button id="playPauseBtn" class="play-btn">▶ Play</button>
         <button id="stopBtn">⏹ Stop</button>
-        <button id="nextBtn">Next ⏭</button>
       </div>
       
       <div class="progress-container">
@@ -555,17 +546,7 @@
       {
         title: "Call It Corner (Optimized)",
         subtitle: "Thursday League · CDA Night Life",
-        file: "Call It Corner (Optimized · Thursday League · CDA Night Life).mp3"
-      },
-      {
-        title: "Two Rails and a Promise",
-        subtitle: "CDA Pool Leagues",
-        file: "Two Rails and a Promise.mp3"
-      },
-      {
-        title: "Call It Corner (Sherman Ave)",
-        subtitle: "CDA Pool Leagues",
-        file: "Call It Corner (Sherman Ave).mp3"
+        file: "audio/Call It Corner (Optimized · Thursday League · CDA Night Life).mp3"
       }
     ];
 
@@ -573,8 +554,6 @@
     const audio = document.getElementById('audioPlayer');
     const playPauseBtn = document.getElementById('playPauseBtn');
     const stopBtn = document.getElementById('stopBtn');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
     const progressBar = document.getElementById('progressBar');
     const progressFill = document.getElementById('progressFill');
     const currentTimeEl = document.getElementById('currentTime');
@@ -697,28 +676,9 @@
       playPauseBtn.classList.add('play-btn');
     });
 
-    // Previous
-    prevBtn.addEventListener('click', () => {
-      const newIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
-      loadTrack(newIndex);
-      if (!audio.paused) {
-        audio.play();
-      }
-    });
-
-    // Next
-    nextBtn.addEventListener('click', () => {
-      const newIndex = (currentTrackIndex + 1) % tracks.length;
-      loadTrack(newIndex);
-      if (!audio.paused) {
-        audio.play();
-      }
-    });
-
-    // Auto-play next track
+    // Auto-restart track when ended (since only one track)
     audio.addEventListener('ended', () => {
-      const newIndex = (currentTrackIndex + 1) % tracks.length;
-      loadTrack(newIndex);
+      audio.currentTime = 0;
       audio.play();
     });
 
