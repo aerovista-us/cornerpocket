@@ -1153,7 +1153,8 @@
       audio.src = track.file;
       audio.load(); // Force reload
       
-      // Update playlist UI
+      // Update playlist UI - refresh items if needed
+      playlistItems = document.querySelectorAll('.playlist-item');
       playlistItems.forEach((item, i) => {
         item.classList.toggle('active', i === index);
       });
