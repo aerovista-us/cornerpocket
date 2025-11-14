@@ -1939,17 +1939,6 @@
       return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
     }
 
-    // Reset pool table when switching modes
-    const originalModeSwitch = document.querySelectorAll('.mode-btn');
-    originalModeSwitch.forEach(btn => {
-      const originalClick = btn.onclick;
-      btn.addEventListener('click', () => {
-        if (btn.dataset.mode !== 'pooltable') {
-          poolTableInitialized = false;
-        }
-      });
-    });
-
     drawVisualizer();
 
     // Interactive clickable corners
