@@ -1050,21 +1050,13 @@
     let isAudioContextInitialized = false;
 
     function cleanupAudioContext() {
-      if (source) {
-        try {
-          source.disconnect();
-        } catch (e) {
-          console.warn('Error disconnecting source:', e);
-        }
-        source = null;
-      }
+      // Disconnect nodes but keep source - can't recreate MediaElementSource
       if (gainNode) {
         try {
           gainNode.disconnect();
         } catch (e) {
           console.warn('Error disconnecting gainNode:', e);
         }
-        gainNode = null;
       }
       if (analyser) {
         try {
@@ -1072,17 +1064,12 @@
         } catch (e) {
           console.warn('Error disconnecting analyser:', e);
         }
-        analyser = null;
       }
-      isAudioContextInitialized = false;
+      // Note: We don't disconnect source or set it to null
+      // because createMediaElementSource can only be called once per audio element
     }
 
     function initAudioContext() {
-      // Clean up existing context if switching tracks
-      if (isAudioContextInitialized && source) {
-        cleanupAudioContext();
-      }
-
       if (!audioContext) {
         try {
           audioContext = new (window.AudioContext || window.webkitAudioContext)({
@@ -1101,8 +1088,29 @@
         });
       }
       
-      if (!isAudioContextInitialized) {
+      // Only create MediaElementSource once - it can't be recreated
+      if (!source) {
         try {
+          source = audioContext.createMediaElementSource(audio);
+          isAudioContextInitialized = true;
+        } catch (e) {
+          console.error('Error creating MediaElementSource (may already exist):', e);
+          // If it already exists, we can't recreate it, so we'll work without it
+          return;
+        }
+      }
+      
+      // Recreate gain and analyser nodes if needed (these can be recreated)
+      if (!gainNode || !analyser) {
+        try {
+          // Clean up old nodes if they exist
+          if (gainNode) {
+            try { gainNode.disconnect(); } catch (e) {}
+          }
+          if (analyser) {
+            try { analyser.disconnect(); } catch (e) {}
+          }
+          
           gainNode = audioContext.createGain();
           gainNode.gain.value = 1.0;
           
@@ -1112,16 +1120,14 @@
           analyser.minDecibels = -90;
           analyser.maxDecibels = -10;
           
-          source = audioContext.createMediaElementSource(audio);
+          // Reconnect the chain
           source.connect(gainNode);
           gainNode.connect(analyser);
           analyser.connect(audioContext.destination);
           
           dataArray = new Uint8Array(analyser.frequencyBinCount);
-          isAudioContextInitialized = true;
         } catch (e) {
           console.error('Error initializing audio nodes:', e);
-          cleanupAudioContext();
         }
       }
     }
@@ -1146,8 +1152,21 @@
       bufferFill.style.width = '0%';
       progressFill.style.width = '0%';
       
-      // Clean up previous audio context connection
-      cleanupAudioContext();
+      // Don't cleanup audio context on track change - MediaElementSource can't be recreated
+      // Just disconnect and reconnect the gain/analyser chain if needed
+      if (gainNode && analyser) {
+        try {
+          gainNode.disconnect();
+          analyser.disconnect();
+          // Reconnect
+          source.connect(gainNode);
+          gainNode.connect(analyser);
+          analyser.connect(audioContext.destination);
+        } catch (e) {
+          // If connection fails, reinitialize
+          initAudioContext();
+        }
+      }
       
       // Use the file path directly - browser will handle encoding
       audio.src = track.file;
