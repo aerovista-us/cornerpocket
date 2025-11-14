@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calling It Corner – CDA Pool Leagues</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #1a2e1a 0%, #0d1a0d 50%, #2a1a0d 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #f8f8f2;
+      text-align: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      overflow-x: hidden;
+      position: relative;
+    }
+    /* Pool felt texture */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.1) 0px,
+          transparent 1px,
+          transparent 2px,
+          rgba(0, 0, 0, 0.1) 3px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Pool ball particles */
+    .pool-ball {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1000;
+      animation: roll 4s infinite;
+      opacity: 0.7;
+      box-shadow: inset -3px -3px 0 rgba(0, 0, 0, 0.3);
+    }
+    @keyframes roll {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.7; }
+      50% { transform: translate(30px, -30px) rotate(180deg); opacity: 1; }
+    }
+    /* Game overlay */
+    .game-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 20, 10, 0.95);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      backdrop-filter: blur(10px);
+    }
+    .game-overlay.active {
+      display: flex;
+    }
+    .game-container {
+      max-width: 700px;
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(34, 139, 34, 0.2), rgba(139, 69, 19, 0.2));
+      border: 3px solid #8b4513;
+      border-radius: 16px;
+      position: relative;
+      box-shadow: 0 0 40px rgba(34, 139, 34, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+    .game-title {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #228b22, #daa520, #8b4513);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(34, 139, 34, 0.5);
+    }
+    .pool-table {
+      width: 100%;
+      max-width: 600px;
+      aspect-ratio: 2/1;
+      background: linear-gradient(135deg, #0d4d0d, #1a6b1a);
+      border: 8px solid #8b4513;
+      border-radius: 20px;
+      margin: 2rem auto;
+      position: relative;
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5), 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+    .pool-ball-game {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      box-shadow: inset -5px -5px 0 rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    .pool-ball-game:hover {
+      transform: scale(1.2);
+      box-shadow: inset -5px -5px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 215, 0, 0.8);
+    }
+    .pool-ball-game.sunk {
+      animation: sinkBall 0.5s forwards;
+    }
+    .pool-ball-game.wrong {
+      animation: shake 0.5s;
+    }
+    @keyframes sinkBall {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0) translateY(20px); opacity: 0; }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+    .game-score {
+      font-size: 1.5rem;
+      margin: 1rem 0;
+      color: #daa520;
+    }
+    .close-game {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(139, 69, 19, 0.8);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+    .close-game:hover {
+      background: rgba(139, 69, 19, 1);
+      transform: rotate(90deg);
+    }
+    /* Pool-themed button */
+    .pool-btn {
+      margin: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #228b22, #1a6b1a);
+      border: 2px solid #8b4513;
+      color: #daa520;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    .pool-btn:hover {
+      background: linear-gradient(135deg, #2da32d, #228b22);
+      box-shadow: 0 6px 20px rgba(34, 139, 34, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+    /* Album art wrapper with pool table feel */
+    .album-art-wrapper {
+      position: relative;
+      display: inline-block;
+      margin: 2rem auto;
+      border: 6px solid #8b4513;
+      border-radius: 12px;
+      padding: 8px;
+      background: linear-gradient(135deg, #2a1a0d, #1a0d05);
+      box-shadow: 0 0 40px rgba(34, 139, 34, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+    .album-art {
+      max-width: 100%;
+      width: 400px;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 0 60px rgba(34, 139, 34, 0.4);
+      display: block;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+    .album-art:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 80px rgba(34, 139, 34, 0.6);
+    }
+    .clickable-corner {
+      position: absolute;
+      width: 35px;
+      height: 35px;
+      background: radial-gradient(circle, #daa520, #8b4513);
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10;
+      animation: cornerPulse 2s infinite;
+      border: 3px solid #daa520;
+      box-shadow: 0 0 15px rgba(218, 165, 32, 0.6);
+    }
+    @keyframes cornerPulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; box-shadow: 0 0 15px rgba(218, 165, 32, 0.6); }
+      50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 25px rgba(218, 165, 32, 1); }
+    }
+    .clickable-corner:hover {
+      transform: scale(1.4);
+      box-shadow: 0 0 35px rgba(218, 165, 32, 1);
+    }
+    /* Visualizer mode selector */
+    .visualizer-modes {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+    .mode-btn {
+      padding: 0.5rem 1rem;
+      background: rgba(34, 139, 34, 0.2);
+      border: 1px solid #8b4513;
+      color: #daa520;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
+    .mode-btn:hover {
+      background: rgba(34, 139, 34, 0.4);
+      border-color: #daa520;
+    }
+    .mode-btn.active {
+      background: rgba(34, 139, 34, 0.5);
+      border-color: #daa520;
+      box-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
+    }
+    /* Quality indicator */
+    .quality-indicator {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: rgba(34, 139, 34, 0.3);
+      border: 1px solid #228b22;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      margin-left: 1rem;
+      color: #90ee90;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin: 0.5rem 0;
+      background: linear-gradient(90deg, #228b22, #daa520, #8b4513);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(34, 139, 34, 0.5);
+      position: relative;
+    }
+    h3 {
+      font-size: 1.2rem;
+      color: #daa520;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+    .visualizer-container {
+      margin: 2rem auto;
+      width: 100%;
+      max-width: 800px;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, rgba(34, 139, 34, 0.2), rgba(139, 69, 19, 0.2));
+      border: 3px solid #8b4513;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+    .player-container {
+      margin: 2rem auto;
+      max-width: 800px;
+      background: linear-gradient(135deg, rgba(34, 139, 34, 0.1), rgba(139, 69, 19, 0.1));
+      border-radius: 16px;
+      padding: 1.5rem;
+      backdrop-filter: blur(10px);
+      border: 2px solid #8b4513;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+    .playlist-container {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      border: 1px solid #8b4513;
+    }
+    .playlist-item {
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      background: rgba(34, 139, 34, 0.1);
+      border: 1px solid rgba(139, 69, 19, 0.3);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+    }
+    .playlist-item:hover {
+      background: rgba(34, 139, 34, 0.3);
+      border-color: #daa520;
+      transform: translateX(5px);
+    }
+    .playlist-item.active {
+      background: rgba(34, 139, 34, 0.4);
+      border-color: #daa520;
+      box-shadow: 0 0 15px rgba(218, 165, 32, 0.4);
+    }
+    .playlist-item-title {
+      font-weight: bold;
+      color: #daa520;
+      margin-bottom: 0.25rem;
+    }
+    .playlist-item-subtitle {
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+    .audio-controls {
+      width: 100%;
+      margin: 1rem 0;
+    }
+    .control-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+    button {
+      background: linear-gradient(135deg, #228b22, #1a6b1a);
+      border: 2px solid #8b4513;
+      color: #daa520;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(34, 139, 34, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    button.pause-btn {
+      background: linear-gradient(135deg, #8b4513, #654321);
+      box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    button.pause-btn:hover {
+      box-shadow: 0 6px 20px rgba(139, 69, 19, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+    .progress-container {
+      width: 100%;
+      margin: 1rem 0;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 5px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      border: 1px solid #8b4513;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #228b22, #daa520, #8b4513);
+      width: 0%;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 10px rgba(34, 139, 34, 0.5);
+    }
+    .time-display {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #daa520;
+    }
+    .volume-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .volume-slider {
+      width: 200px;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      border: 1px solid #8b4513;
+    }
+    .volume-slider::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #daa520;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(218, 165, 32, 0.5), inset -2px -2px 0 rgba(0, 0, 0, 0.3);
+      border: 2px solid #8b4513;
+    }
+    .volume-slider::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      background: #daa520;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #8b4513;
+      box-shadow: 0 0 10px rgba(218, 165, 32, 0.5), inset -2px -2px 0 rgba(0, 0, 0, 0.3);
+    }
+    audio {
+      display: none;
+    }
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .album-art {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+      }
+      .control-buttons {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎱 Calling It Corner <span class="quality-indicator">HQ Audio</span></h1>
+    <h3>CDA Pool Leagues · Thursday League · Night Life</h3>
+
+    <div class="album-art-wrapper">
+      <div style="width: 400px; height: 400px; background: linear-gradient(135deg, #0d4d0d, #1a6b1a); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: #daa520; text-shadow: 0 0 20px rgba(218, 165, 32, 0.5);">🎱</div>
+      <div class="clickable-corner" id="corner1" style="top: 15%; left: 10%;"></div>
+      <div class="clickable-corner" id="corner2" style="top: 60%; right: 15%;"></div>
+      <div class="clickable-corner" id="corner3" style="bottom: 20%; left: 25%;"></div>
+    </div>
+
+    <button class="pool-btn" id="gameBtn">🎮 Sink the 8-Ball Game</button>
+
+    <div class="visualizer-modes">
+      <button class="mode-btn active" data-mode="bars">Bars</button>
+      <button class="mode-btn" data-mode="circle">Circle</button>
+      <button class="mode-btn" data-mode="waveform">Waveform</button>
+      <button class="mode-btn" data-mode="ripples">Ripples</button>
+    </div>
+
+    <div class="visualizer-container">
+      <canvas id="visualizer"></canvas>
+    </div>
+
+    <div class="player-container">
+      <div class="playlist-container">
+        <h4 style="color: #daa520; margin-top: 0;">Playlist</h4>
+        <div class="playlist-item active" data-track="0">
+          <div class="playlist-item-title">Call It Corner (Optimized)</div>
+          <div class="playlist-item-subtitle">Thursday League · CDA Night Life</div>
+        </div>
+        <div class="playlist-item" data-track="1">
+          <div class="playlist-item-title">Two Rails and a Promise</div>
+          <div class="playlist-item-subtitle">CDA Pool Leagues</div>
+        </div>
+        <div class="playlist-item" data-track="2">
+          <div class="playlist-item-title">Call It Corner (Sherman Ave)</div>
+          <div class="playlist-item-subtitle">CDA Pool Leagues</div>
+        </div>
+      </div>
+
+      <div class="control-buttons">
+        <button id="prevBtn">⏮ Prev</button>
+        <button id="playPauseBtn" class="play-btn">▶ Play</button>
+        <button id="stopBtn">⏹ Stop</button>
+        <button id="nextBtn">Next ⏭</button>
+      </div>
+      
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="time-display">
+          <span id="currentTime">0:00</span>
+          <span id="totalTime">0:00</span>
+        </div>
+      </div>
+
+      <div class="volume-control">
+        <span>🔊</span>
+        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="100">
+        <span id="volumeValue">100%</span>
+      </div>
+    </div>
+
+    <audio id="audioPlayer" preload="metadata"></audio>
+  </div>
+
+  <!-- Game Overlay -->
+  <div class="game-overlay" id="gameOverlay">
+    <div class="game-container">
+      <button class="close-game" id="closeGame">×</button>
+      <h2 class="game-title">🎱 Sink the 8-Ball!</h2>
+      <p>Click on the 8-ball before time runs out! Avoid the other balls.</p>
+      <div class="game-score">Score: <span id="gameScore">0</span> | Time: <span id="gameTime">30</span>s</div>
+      <div class="pool-table" id="poolTable"></div>
+      <button class="pool-btn" id="restartGame" style="display: none;">Play Again</button>
+    </div>
+  </div>
+
+  <script>
+    // Playlist tracks
+    const tracks = [
+      {
+        title: "Call It Corner (Optimized)",
+        subtitle: "Thursday League · CDA Night Life",
+        file: "Call It Corner (Optimized · Thursday League · CDA Night Life).mp3"
+      },
+      {
+        title: "Two Rails and a Promise",
+        subtitle: "CDA Pool Leagues",
+        file: "Two Rails and a Promise.mp3"
+      },
+      {
+        title: "Call It Corner (Sherman Ave)",
+        subtitle: "CDA Pool Leagues",
+        file: "Call It Corner (Sherman Ave).mp3"
+      }
+    ];
+
+    let currentTrackIndex = 0;
+    const audio = document.getElementById('audioPlayer');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const progressBar = document.getElementById('progressBar');
+    const progressFill = document.getElementById('progressFill');
+    const currentTimeEl = document.getElementById('currentTime');
+    const totalTimeEl = document.getElementById('totalTime');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeValue = document.getElementById('volumeValue');
+    const canvas = document.getElementById('visualizer');
+    const ctx = canvas.getContext('2d');
+    const playlistItems = document.querySelectorAll('.playlist-item');
+
+    // Set canvas size
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Audio context and analyzer - Enhanced quality
+    let audioContext;
+    let analyser;
+    let dataArray;
+    let source;
+    let gainNode;
+    let visualizerMode = 'bars';
+    let smoothingTimeConstant = 0.8;
+
+    function initAudioContext() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)({
+          sampleRate: 48000
+        });
+        
+        gainNode = audioContext.createGain();
+        gainNode.gain.value = 1.0;
+        
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 2048;
+        analyser.smoothingTimeConstant = smoothingTimeConstant;
+        analyser.minDecibels = -90;
+        analyser.maxDecibels = -10;
+        
+        source = audioContext.createMediaElementSource(audio);
+        source.connect(gainNode);
+        gainNode.connect(analyser);
+        analyser.connect(audioContext.destination);
+        
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+      }
+    }
+
+    // Load track
+    function loadTrack(index) {
+      currentTrackIndex = index;
+      const track = tracks[index];
+      audio.src = track.file;
+      
+      // Update playlist UI
+      playlistItems.forEach((item, i) => {
+        item.classList.toggle('active', i === index);
+      });
+      
+      // Update title if needed
+      if (audio.readyState >= 2) {
+        totalTimeEl.textContent = formatTime(audio.duration);
+      }
+    }
+
+    // Format time
+    function formatTime(seconds) {
+      if (!isFinite(seconds)) return '0:00';
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Update progress
+    function updateProgress() {
+      if (audio.duration) {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = progress + '%';
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+      }
+    }
+
+    // Playlist item clicks
+    playlistItems.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        if (index !== currentTrackIndex) {
+          loadTrack(index);
+          if (!audio.paused) {
+            audio.play();
+          }
+        }
+      });
+    });
+
+    // Play/Pause
+    playPauseBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        initAudioContext();
+        audio.play();
+        playPauseBtn.textContent = '⏸ Pause';
+        playPauseBtn.classList.add('pause-btn');
+        playPauseBtn.classList.remove('play-btn');
+      } else {
+        audio.pause();
+        playPauseBtn.textContent = '▶ Play';
+        playPauseBtn.classList.remove('pause-btn');
+        playPauseBtn.classList.add('play-btn');
+      }
+    });
+
+    // Stop
+    stopBtn.addEventListener('click', () => {
+      audio.pause();
+      audio.currentTime = 0;
+      playPauseBtn.textContent = '▶ Play';
+      playPauseBtn.classList.remove('pause-btn');
+      playPauseBtn.classList.add('play-btn');
+    });
+
+    // Previous
+    prevBtn.addEventListener('click', () => {
+      const newIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+      loadTrack(newIndex);
+      if (!audio.paused) {
+        audio.play();
+      }
+    });
+
+    // Next
+    nextBtn.addEventListener('click', () => {
+      const newIndex = (currentTrackIndex + 1) % tracks.length;
+      loadTrack(newIndex);
+      if (!audio.paused) {
+        audio.play();
+      }
+    });
+
+    // Auto-play next track
+    audio.addEventListener('ended', () => {
+      const newIndex = (currentTrackIndex + 1) % tracks.length;
+      loadTrack(newIndex);
+      audio.play();
+    });
+
+    // Progress bar click
+    progressBar.addEventListener('click', (e) => {
+      if (audio.duration) {
+        const rect = progressBar.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        audio.currentTime = percent * audio.duration;
+      }
+    });
+
+    // Volume control
+    volumeSlider.addEventListener('input', (e) => {
+      const volume = e.target.value / 100;
+      audio.volume = volume;
+      volumeValue.textContent = e.target.value + '%';
+    });
+
+    // Update time display
+    audio.addEventListener('loadedmetadata', () => {
+      totalTimeEl.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('timeupdate', updateProgress);
+
+    // Load first track
+    loadTrack(0);
+
+    // Visualizer modes
+    const modeButtons = document.querySelectorAll('.mode-btn');
+    modeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        modeButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        visualizerMode = btn.dataset.mode;
+      });
+    });
+
+    // Enhanced Visualizer with multiple modes
+    function drawVisualizer() {
+      requestAnimationFrame(drawVisualizer);
+
+      if (!analyser) return;
+
+      ctx.fillStyle = 'rgba(13, 26, 13, 0.2)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      switch(visualizerMode) {
+        case 'bars':
+          drawBars();
+          break;
+        case 'circle':
+          drawCircle();
+          break;
+        case 'waveform':
+          drawWaveform();
+          break;
+        case 'ripples':
+          drawRipples();
+          break;
+      }
+    }
+
+    function drawBars() {
+      analyser.getByteFrequencyData(dataArray);
+      const barCount = 128;
+      const barWidth = canvas.width / barCount;
+      let x = 0;
+
+      for (let i = 0; i < barCount; i++) {
+        const dataIndex = Math.floor((i / barCount) * dataArray.length);
+        const barHeight = (dataArray[dataIndex] / 255) * canvas.height * 0.9;
+
+        const gradient = ctx.createLinearGradient(0, canvas.height, 0, canvas.height - barHeight);
+        gradient.addColorStop(0, '#228b22');
+        gradient.addColorStop(0.5, '#daa520');
+        gradient.addColorStop(1, '#8b4513');
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight);
+
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = '#228b22';
+        ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight);
+        ctx.shadowBlur = 0;
+
+        x += barWidth;
+      }
+    }
+
+    function drawCircle() {
+      analyser.getByteFrequencyData(dataArray);
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const radius = Math.min(canvas.width, canvas.height) / 3;
+      const bars = 64;
+
+      ctx.save();
+      ctx.translate(centerX, centerY);
+
+      for (let i = 0; i < bars; i++) {
+        const angle = (i / bars) * Math.PI * 2;
+        const dataIndex = Math.floor((i / bars) * dataArray.length);
+        const barLength = (dataArray[dataIndex] / 255) * radius * 0.8;
+
+        ctx.save();
+        ctx.rotate(angle);
+        const hue = (i / bars) * 60 + 60; // Green to brown range
+        ctx.strokeStyle = `hsl(${hue}, 70%, 50%)`;
+        ctx.lineWidth = 3;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = ctx.strokeStyle;
+        ctx.beginPath();
+        ctx.moveTo(radius, 0);
+        ctx.lineTo(radius + barLength, 0);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      ctx.restore();
+    }
+
+    function drawWaveform() {
+      analyser.getByteTimeDomainData(dataArray);
+      ctx.strokeStyle = '#daa520';
+      ctx.lineWidth = 3;
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = '#daa520';
+      ctx.beginPath();
+
+      const sliceWidth = canvas.width / dataArray.length;
+      let x = 0;
+
+      for (let i = 0; i < dataArray.length; i++) {
+        const v = dataArray[i] / 128.0;
+        const y = (v * canvas.height) / 2;
+
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+
+        x += sliceWidth;
+      }
+
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+
+    function drawRipples() {
+      analyser.getByteFrequencyData(dataArray);
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const maxRadius = Math.min(canvas.width, canvas.height) / 2;
+
+      // Draw concentric ripples like pool table
+      for (let i = 0; i < 8; i++) {
+        const dataIndex = Math.floor((i / 8) * dataArray.length);
+        const intensity = dataArray[dataIndex] / 255;
+        const radius = (i / 8) * maxRadius * (0.5 + intensity * 0.5);
+
+        const gradient = ctx.createRadialGradient(centerX, centerY, radius - 10, centerX, centerY, radius + 10);
+        gradient.addColorStop(0, `rgba(34, 139, 34, ${intensity * 0.3})`);
+        gradient.addColorStop(0.5, `rgba(218, 165, 32, ${intensity * 0.2})`);
+        gradient.addColorStop(1, 'transparent');
+
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    drawVisualizer();
+
+    // Interactive clickable corners
+    let cornerCount = 0;
+    const clickableCorners = document.querySelectorAll('.clickable-corner');
+    clickableCorners.forEach((corner, index) => {
+      corner.addEventListener('click', () => {
+        cornerCount++;
+        corner.style.display = 'none';
+        createPoolBallExplosion(corner);
+        
+        if (cornerCount === 3) {
+          setTimeout(() => {
+            alert('🎉 You found all the corners! Perfect shot!');
+            cornerCount = 0;
+            clickableCorners.forEach(c => c.style.display = 'block');
+          }, 500);
+        }
+      });
+    });
+
+    function createPoolBallExplosion(element) {
+      const rect = element.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+
+      const ballColors = ['#ffffff', '#ff0000', '#0000ff', '#ffff00', '#ff00ff', '#00ff00', '#ff8800', '#000000'];
+      
+      for (let i = 0; i < 15; i++) {
+        const ball = document.createElement('div');
+        ball.className = 'pool-ball';
+        const color = ballColors[Math.floor(Math.random() * ballColors.length)];
+        ball.style.background = `radial-gradient(circle at 30% 30%, ${color}, ${color}dd)`;
+        ball.style.left = x + 'px';
+        ball.style.top = y + 'px';
+        ball.style.animationDelay = (i * 0.1) + 's';
+        ball.style.animationDuration = (2 + Math.random() * 2) + 's';
+        document.body.appendChild(ball);
+
+        setTimeout(() => ball.remove(), 4000);
+      }
+    }
+
+    // Pool game functionality
+    const gameBtn = document.getElementById('gameBtn');
+    const gameOverlay = document.getElementById('gameOverlay');
+    const closeGame = document.getElementById('closeGame');
+    const poolTable = document.getElementById('poolTable');
+    const gameScore = document.getElementById('gameScore');
+    const gameTime = document.getElementById('gameTime');
+    const restartGame = document.getElementById('restartGame');
+
+    let gameScoreValue = 0;
+    let gameTimeLeft = 30;
+    let gameTimer;
+    let sunkBalls = [];
+    let gameActive = false;
+    let eightBallIndex = -1;
+
+    const ballColors = [
+      { num: 1, color: '#ffff00' }, { num: 2, color: '#0000ff' }, { num: 3, color: '#ff0000' },
+      { num: 4, color: '#800080' }, { num: 5, color: '#ff8800' }, { num: 6, color: '#008000' },
+      { num: 7, color: '#8b0000' }, { num: 8, color: '#000000' }, { num: 9, color: '#ffff00' },
+      { num: 10, color: '#0000ff' }, { num: 11, color: '#ff0000' }, { num: 12, color: '#800080' },
+      { num: 13, color: '#ff8800' }, { num: 14, color: '#008000' }, { num: 15, color: '#8b0000' }
+    ];
+
+    function startGame() {
+      gameActive = true;
+      gameScoreValue = 0;
+      gameTimeLeft = 30;
+      sunkBalls = [];
+      gameScore.textContent = gameScoreValue;
+      gameTime.textContent = gameTimeLeft;
+      poolTable.innerHTML = '';
+      restartGame.style.display = 'none';
+
+      // Randomly place 8 balls including the 8-ball
+      const selectedBalls = [];
+      eightBallIndex = Math.floor(Math.random() * 8);
+      
+      for (let i = 0; i < 8; i++) {
+        if (i === eightBallIndex) {
+          selectedBalls.push(ballColors[7]); // 8-ball
+        } else {
+          const randomBall = ballColors[Math.floor(Math.random() * (ballColors.length - 1))];
+          selectedBalls.push(randomBall);
+        }
+      }
+
+      // Shuffle positions
+      for (let i = selectedBalls.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [selectedBalls[i], selectedBalls[j]] = [selectedBalls[j], selectedBalls[i]];
+        if (i === eightBallIndex) eightBallIndex = j;
+        else if (j === eightBallIndex) eightBallIndex = i;
+      }
+
+      // Place balls on table
+      selectedBalls.forEach((ball, index) => {
+        const ballEl = document.createElement('div');
+        ballEl.className = 'pool-ball-game';
+        ballEl.dataset.index = index;
+        ballEl.dataset.isEight = (index === eightBallIndex) ? 'true' : 'false';
+        
+        // Random position
+        const x = 10 + Math.random() * 80;
+        const y = 10 + Math.random() * 80;
+        ballEl.style.left = x + '%';
+        ballEl.style.top = y + '%';
+        ballEl.style.background = `radial-gradient(circle at 30% 30%, ${ball.color}, ${ball.color}cc)`;
+        ballEl.textContent = ball.num;
+        ballEl.style.color = ball.num === 8 ? '#ffffff' : '#000000';
+        
+        ballEl.addEventListener('click', () => handleBallClick(ballEl));
+        poolTable.appendChild(ballEl);
+      });
+
+      gameTimer = setInterval(() => {
+        gameTimeLeft--;
+        gameTime.textContent = gameTimeLeft;
+        
+        if (gameTimeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+    }
+
+    function handleBallClick(ballEl) {
+      if (!gameActive || sunkBalls.includes(ballEl.dataset.index)) return;
+
+      const isEight = ballEl.dataset.isEight === 'true';
+
+      if (isEight) {
+        ballEl.classList.add('sunk');
+        sunkBalls.push(ballEl.dataset.index);
+        gameScoreValue += 50;
+        gameScore.textContent = gameScoreValue;
+        setTimeout(() => {
+          endGame(true);
+        }, 500);
+      } else {
+        ballEl.classList.add('wrong');
+        gameScoreValue = Math.max(0, gameScoreValue - 5);
+        gameScore.textContent = gameScoreValue;
+        setTimeout(() => {
+          ballEl.classList.remove('wrong');
+        }, 500);
+      }
+    }
+
+    function endGame(won = false) {
+      gameActive = false;
+      clearInterval(gameTimer);
+      
+      if (won) {
+        setTimeout(() => {
+          alert(`🎉 Perfect! You sank the 8-ball! Final Score: ${gameScoreValue}`);
+          restartGame.style.display = 'block';
+        }, 500);
+      } else {
+        setTimeout(() => {
+          alert(`⏰ Time's up! Final Score: ${gameScoreValue}`);
+          restartGame.style.display = 'block';
+        }, 500);
+      }
+    }
+
+    gameBtn.addEventListener('click', () => {
+      gameOverlay.classList.add('active');
+      startGame();
+    });
+
+    closeGame.addEventListener('click', () => {
+      gameOverlay.classList.remove('active');
+      if (gameTimer) clearInterval(gameTimer);
+      gameActive = false;
+    });
+
+    restartGame.addEventListener('click', () => {
+      startGame();
+    });
+  </script>
+</body>
+</html>
+
