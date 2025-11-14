@@ -1476,6 +1476,28 @@
         ],
         paymentLink: "#",
         squareLinkId: "YOUR_CHECKOUT_ID_STICKERS_5X5"
+      },
+      {
+        id: 6,
+        title: "CDA Pool League Long Sleeve Tee (White)",
+        description: "Premium long sleeve t-shirt perfect for cooler league nights",
+        price: "$29.99",
+        images: [
+          "mockups/unisex-long-sleeve-tee-white-front-6917046caf8cb.png",
+          "mockups/unisex-long-sleeve-tee-white-front-2-6917046cafeb8.png",
+          "mockups/unisex-long-sleeve-tee-white-front-6917046cb0384.png",
+          "mockups/unisex-long-sleeve-tee-white-left-front-6917046cb0842.png"
+        ],
+        features: [
+          "100% Cotton",
+          "Long sleeve design",
+          "Premium print quality",
+          "Available in multiple sizes",
+          "Machine washable",
+          "Comfortable fit"
+        ],
+        paymentLink: "#",
+        squareLinkId: "YOUR_CHECKOUT_ID_LONGSLEEVE_WHITE"
       }
     ];
 
@@ -1592,11 +1614,8 @@
       });
 
       // Build Square checkout link with UTM parameters
-      if (product.squareLinkId && product.squareLinkId !== 'YOUR_CHECKOUT_ID_TSHIRT_BLACK' && 
-          product.squareLinkId !== 'YOUR_CHECKOUT_ID_TSHIRT_WHITE' && 
-          product.squareLinkId !== 'YOUR_CHECKOUT_ID_HOODIE' &&
-          product.squareLinkId !== 'YOUR_CHECKOUT_ID_STICKERS_3X3' &&
-          product.squareLinkId !== 'YOUR_CHECKOUT_ID_STICKERS_5X5') {
+      if (product.squareLinkId && 
+          !product.squareLinkId.startsWith('YOUR_CHECKOUT_ID_')) {
         buyBtn.href = `https://square.link/u/${product.squareLinkId}?utm_source=site&utm_campaign=pp8ball_launch`;
       } else {
         buyBtn.href = product.paymentLink;
