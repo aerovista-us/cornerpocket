@@ -687,9 +687,16 @@
       background: rgba(45, 134, 89, 0.1);
       border: 1px solid rgba(139, 69, 19, 0.3);
       border-radius: 6px;
-      cursor: pointer;
+      cursor: grab;
       transition: all 0.3s ease;
       text-align: left;
+      user-select: none;
+    }
+    .playlist-item[draggable="true"] {
+      cursor: grab;
+    }
+    .playlist-item[draggable="true"]:active {
+      cursor: grabbing;
     }
     .playlist-item:hover {
       background: rgba(45, 134, 89, 0.3);
@@ -700,6 +707,18 @@
       background: rgba(45, 134, 89, 0.4);
       border-color: #daa520;
       box-shadow: 0 0 15px rgba(218, 165, 32, 0.4);
+    }
+    .playlist-item.dragging {
+      opacity: 0.5;
+      transform: scale(0.95);
+      cursor: grabbing;
+      border-color: #daa520;
+      box-shadow: 0 4px 20px rgba(218, 165, 32, 0.6);
+    }
+    .playlist-item.drag-over {
+      border-top: 3px solid #daa520;
+      background: rgba(218, 165, 32, 0.2);
+      transform: translateY(-2px);
     }
     .playlist-item-title {
       font-weight: bold;
@@ -873,26 +892,26 @@
     </div>
 
     <div class="visualizer-container">
-      <img src="images/callit.png" alt="CDA Pool Leagues" class="visualizer-placeholder" id="visualizerPlaceholder" />
+      <img src="images/CDA_pool.nights.png" alt="CDA Pool Leagues Night Scene" class="visualizer-placeholder" id="visualizerPlaceholder" />
       <canvas id="visualizer"></canvas>
     </div>
 
     <div class="player-container">
       <div class="playlist-container">
         <h4 style="color: #daa520; margin-top: 0;">Playlist</h4>
-        <div class="playlist-item active" data-track="0">
+        <div class="playlist-item active" data-track="0" draggable="true">
           <div class="playlist-item-title">Call It Corner (Optimized)</div>
           <div class="playlist-item-subtitle">Thursday League · CDA Night Life</div>
         </div>
-        <div class="playlist-item" data-track="1">
+        <div class="playlist-item" data-track="1" draggable="true">
           <div class="playlist-item-title">Two Rails and a Promise</div>
           <div class="playlist-item-subtitle">CDA Pool Leagues</div>
         </div>
-        <div class="playlist-item" data-track="2">
+        <div class="playlist-item" data-track="2" draggable="true">
           <div class="playlist-item-title">Call It Corner (Sherman Ave)</div>
           <div class="playlist-item-subtitle">CDA Pool Leagues</div>
         </div>
-        <div class="playlist-item" data-track="3">
+        <div class="playlist-item" data-track="3" draggable="true">
           <div class="playlist-item-title">Black Flag Shine</div>
           <div class="playlist-item-subtitle">CDA Pool Leagues</div>
         </div>
@@ -1008,7 +1027,9 @@
     const canvas = document.getElementById('visualizer');
     const ctx = canvas.getContext('2d');
     const visualizerPlaceholder = document.getElementById('visualizerPlaceholder');
-    const playlistItems = document.querySelectorAll('.playlist-item');
+    const playlistContainer = document.querySelector('.playlist-container');
+    let playlistItems = document.querySelectorAll('.playlist-item');
+    let draggedIndex = null;
 
     // Set canvas size
     function resizeCanvas() {
@@ -1159,29 +1180,119 @@
       }
     }
 
-    // Playlist item clicks
-    playlistItems.forEach((item, index) => {
-      item.addEventListener('click', async () => {
-        if (index !== currentTrackIndex) {
-          const wasPlaying = !audio.paused;
+    // Function to re-render playlist after reordering
+    function renderPlaylist() {
+      const playlistHTML = playlistContainer.querySelector('h4').outerHTML + 
+        tracks.map((track, index) => `
+          <div class="playlist-item ${index === currentTrackIndex ? 'active' : ''}" 
+               data-track="${index}" 
+               draggable="true">
+            <div class="playlist-item-title">${track.title}</div>
+            <div class="playlist-item-subtitle">${track.subtitle}</div>
+          </div>
+        `).join('');
+      
+      playlistContainer.innerHTML = playlistHTML;
+      playlistItems = document.querySelectorAll('.playlist-item');
+      attachPlaylistEventListeners();
+    }
+
+    // Attach event listeners to playlist items
+    function attachPlaylistEventListeners() {
+      // Playlist item clicks - always switch and play
+      playlistItems.forEach((item, index) => {
+        // Remove existing listeners by cloning
+        const newItem = item.cloneNode(true);
+        item.parentNode.replaceChild(newItem, item);
+        
+        newItem.addEventListener('click', async (e) => {
+          // Don't trigger click if dragging
+          if (newItem.classList.contains('dragging')) return;
+          
           loadTrack(index);
-          if (wasPlaying) {
-            // Wait for audio to be ready before playing
-            audio.addEventListener('canplay', async () => {
-              try {
-                initAudioContext();
-                if (audioContext && audioContext.state === 'suspended') {
-                  await audioContext.resume();
-                }
-                await audio.play();
-              } catch (e) {
-                console.error('Error playing after playlist click:', e);
+          // Always start playing when clicking a playlist item
+          audio.addEventListener('canplay', async () => {
+            try {
+              initAudioContext();
+              if (audioContext && audioContext.state === 'suspended') {
+                await audioContext.resume();
               }
-            }, { once: true });
+              await audio.play();
+              playPauseBtn.textContent = '⏸ Pause';
+              playPauseBtn.classList.add('pause-btn');
+              playPauseBtn.classList.remove('play-btn');
+            } catch (e) {
+              console.error('Error playing after playlist click:', e);
+              alert('Error playing track. Please try again.');
+            }
+          }, { once: true });
+        });
+
+        // Drag and drop handlers
+        newItem.addEventListener('dragstart', (e) => {
+          draggedIndex = parseInt(newItem.dataset.track);
+          newItem.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/html', newItem.innerHTML);
+        });
+
+        newItem.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          const targetIndex = parseInt(newItem.dataset.track);
+          if (targetIndex !== draggedIndex) {
+            newItem.classList.add('drag-over');
           }
-        }
+        });
+
+        newItem.addEventListener('dragleave', () => {
+          newItem.classList.remove('drag-over');
+        });
+
+        newItem.addEventListener('drop', (e) => {
+          e.preventDefault();
+          newItem.classList.remove('drag-over');
+          
+          if (draggedIndex === null) return;
+          
+          const targetIndex = parseInt(newItem.dataset.track);
+          if (targetIndex === draggedIndex) return;
+
+          // Reorder tracks array
+          const draggedTrack = tracks[draggedIndex];
+          tracks.splice(draggedIndex, 1);
+          tracks.splice(targetIndex, 0, draggedTrack);
+
+          // Update currentTrackIndex if needed
+          if (currentTrackIndex === draggedIndex) {
+            currentTrackIndex = targetIndex;
+          } else if (currentTrackIndex === targetIndex) {
+            if (draggedIndex < targetIndex) {
+              currentTrackIndex = targetIndex - 1;
+            } else {
+              currentTrackIndex = targetIndex + 1;
+            }
+          } else if (draggedIndex < currentTrackIndex && targetIndex >= currentTrackIndex) {
+            currentTrackIndex--;
+          } else if (draggedIndex > currentTrackIndex && targetIndex <= currentTrackIndex) {
+            currentTrackIndex++;
+          }
+
+          // Re-render playlist
+          renderPlaylist();
+        });
+
+        newItem.addEventListener('dragend', () => {
+          newItem.classList.remove('dragging');
+          draggedIndex = null;
+          // Remove drag-over from all items
+          playlistItems.forEach(item => item.classList.remove('drag-over'));
+        });
       });
-    });
+    }
+
+    // Initialize playlist event listeners
+    attachPlaylistEventListeners();
 
     // Play/Pause
     playPauseBtn.addEventListener('click', async () => {
@@ -1338,23 +1449,57 @@
       const error = audio.error;
       if (error) {
         let errorMsg = 'Error loading audio: ';
+        const currentTrack = tracks[currentTrackIndex];
+        const fileName = currentTrack ? currentTrack.file : 'unknown';
+        
         switch (error.code) {
           case error.MEDIA_ERR_ABORTED:
             errorMsg += 'Playback aborted';
             break;
           case error.MEDIA_ERR_NETWORK:
-            errorMsg += 'Network error. Please check your connection.';
+            errorMsg += `Network error loading "${fileName}". Please check your connection and try again.`;
+            console.error('Network error details:', {
+              file: fileName,
+              src: audio.src,
+              networkState: audio.networkState
+            });
             break;
           case error.MEDIA_ERR_DECODE:
-            errorMsg += 'Decoding error. File may be corrupted.';
+            errorMsg += `Decoding error for "${fileName}". File may be corrupted or in an unsupported format.`;
+            console.error('Decode error details:', {
+              file: fileName,
+              readyState: audio.readyState
+            });
             break;
           case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-            errorMsg += 'Audio format not supported.';
+            errorMsg += `Audio format not supported for "${fileName}". Please ensure the file is a valid MP3.`;
+            console.error('Format error details:', {
+              file: fileName,
+              src: audio.src,
+              canPlayType: audio.canPlayType('audio/mpeg')
+            });
             break;
           default:
-            errorMsg += 'Unknown error';
+            errorMsg += `Unknown error loading "${fileName}"`;
         }
+        
+        // Check if it's a 404 error
+        if (audio.networkState === audio.NETWORK_NO_SOURCE) {
+          errorMsg = `File not found: "${fileName}". The audio file may not be uploaded to the server.`;
+        }
+        
+        console.error('Full error details:', {
+          errorCode: error.code,
+          errorMessage: errorMsg,
+          currentTrack: currentTrack,
+          audioSrc: audio.src,
+          networkState: audio.networkState,
+          readyState: audio.readyState
+        });
+        
         alert(errorMsg);
+      } else {
+        console.error('Audio error event but no error object available');
       }
     });
 
@@ -1425,6 +1570,9 @@
           break;
         case 'ripples':
           drawRipples();
+          break;
+        case 'pooltable':
+          drawPoolTable();
           break;
       }
     }
@@ -1539,6 +1687,262 @@
         ctx.fill();
       }
     }
+
+    // Pool Table Visualizer - Physics-based billiard balls
+    let poolBalls = [];
+    let poolTableInitialized = false;
+
+    function initPoolTable() {
+      poolBalls = [];
+      const ballRadius = Math.min(canvas.width, canvas.height) / 25;
+      const railPadding = ballRadius + 5;
+      const tableWidth = canvas.width - railPadding * 2;
+      const tableHeight = canvas.height - railPadding * 2;
+      
+      // Ball colors and numbers (pool ball colors)
+      const ballConfigs = [
+        { num: 0, color: '#FFFFFF', label: 'C' }, // Cue ball
+        { num: 1, color: '#FFD700', label: '1' },
+        { num: 2, color: '#0000FF', label: '2' },
+        { num: 3, color: '#FF0000', label: '3' },
+        { num: 4, color: '#800080', label: '4' },
+        { num: 5, color: '#FF8C00', label: '5' },
+        { num: 6, color: '#008000', label: '6' },
+        { num: 7, color: '#8B0000', label: '7' },
+        { num: 8, color: '#000000', label: '8' },
+        { num: 9, color: '#FFD700', label: '9' },
+        { num: 10, color: '#0000FF', label: '10' },
+        { num: 11, color: '#FF0000', label: '11' },
+        { num: 12, color: '#800080', label: '12' }
+      ];
+
+      // Initialize balls in a triangle formation
+      let ballIndex = 0;
+      for (let row = 0; row < 4 && ballIndex < ballConfigs.length; row++) {
+        for (let col = 0; col <= row && ballIndex < ballConfigs.length; col++) {
+          const config = ballConfigs[ballIndex];
+          const x = railPadding + tableWidth * 0.7 + (col - row / 2) * ballRadius * 2.2;
+          const y = railPadding + tableHeight * 0.3 + row * ballRadius * 2.2;
+          
+          poolBalls.push({
+            x: x,
+            y: y,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            radius: ballRadius,
+            color: config.color,
+            number: config.num,
+            label: config.label,
+            mass: 1
+          });
+          ballIndex++;
+        }
+      }
+      
+      poolTableInitialized = true;
+    }
+
+    function updatePoolTablePhysics() {
+      if (!analyser) return;
+      
+      analyser.getByteFrequencyData(dataArray);
+      // Get bass frequencies (lower indices) for ball boosts
+      const bassBoost = (dataArray[0] + dataArray[1] + dataArray[2]) / (255 * 3);
+      const boostMultiplier = 1 + bassBoost * 2; // Boost up to 3x on bass hits
+      
+      const railPadding = poolBalls[0]?.radius + 5 || 20;
+      const friction = 0.98; // Friction coefficient
+      const minVelocity = 0.1; // Minimum velocity threshold
+      
+      // Update ball positions and apply physics
+      for (let i = 0; i < poolBalls.length; i++) {
+        const ball = poolBalls[i];
+        
+        // Apply audio boost to velocity
+        if (bassBoost > 0.3) {
+          ball.vx *= boostMultiplier;
+          ball.vy *= boostMultiplier;
+        }
+        
+        // Update position
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+        
+        // Apply friction
+        ball.vx *= friction;
+        ball.vy *= friction;
+        
+        // Stop very slow balls
+        if (Math.abs(ball.vx) < minVelocity) ball.vx = 0;
+        if (Math.abs(ball.vy) < minVelocity) ball.vy = 0;
+        
+        // Rail collisions (bounce off edges)
+        if (ball.x - ball.radius < railPadding) {
+          ball.x = railPadding + ball.radius;
+          ball.vx = -ball.vx * 0.8; // Bounce with some energy loss
+        }
+        if (ball.x + ball.radius > canvas.width - railPadding) {
+          ball.x = canvas.width - railPadding - ball.radius;
+          ball.vx = -ball.vx * 0.8;
+        }
+        if (ball.y - ball.radius < railPadding) {
+          ball.y = railPadding + ball.radius;
+          ball.vy = -ball.vy * 0.8;
+        }
+        if (ball.y + ball.radius > canvas.height - railPadding) {
+          ball.y = canvas.height - railPadding - ball.radius;
+          ball.vy = -ball.vy * 0.8;
+        }
+        
+        // Ball-to-ball collisions
+        for (let j = i + 1; j < poolBalls.length; j++) {
+          const other = poolBalls[j];
+          const dx = other.x - ball.x;
+          const dy = other.y - ball.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const minDistance = ball.radius + other.radius;
+          
+          if (distance < minDistance && distance > 0) {
+            // Collision detected - resolve
+            const angle = Math.atan2(dy, dx);
+            const sin = Math.sin(angle);
+            const cos = Math.cos(angle);
+            
+            // Rotate velocities
+            const vx1 = ball.vx * cos + ball.vy * sin;
+            const vy1 = ball.vy * cos - ball.vx * sin;
+            const vx2 = other.vx * cos + other.vy * sin;
+            const vy2 = other.vy * cos - other.vx * sin;
+            
+            // Swap velocities (elastic collision)
+            const finalVx1 = vx2;
+            const finalVx2 = vx1;
+            
+            // Rotate back
+            ball.vx = finalVx1 * cos - vy1 * sin;
+            ball.vy = vy1 * cos + finalVx1 * sin;
+            other.vx = finalVx2 * cos - vy2 * sin;
+            other.vy = vy2 * cos + finalVx2 * sin;
+            
+            // Separate balls to prevent overlap
+            const overlap = minDistance - distance;
+            const separationX = (dx / distance) * overlap * 0.5;
+            const separationY = (dy / distance) * overlap * 0.5;
+            ball.x -= separationX;
+            ball.y -= separationY;
+            other.x += separationX;
+            other.y += separationY;
+          }
+        }
+      }
+    }
+
+    function drawPoolTable() {
+      if (!poolTableInitialized || poolBalls.length === 0) {
+        initPoolTable();
+      }
+      
+      // Draw pool table felt background
+      const railPadding = 15;
+      const railWidth = 8;
+      
+      // Table felt (green)
+      ctx.fillStyle = '#1B5E3E';
+      ctx.fillRect(railPadding, railPadding, canvas.width - railPadding * 2, canvas.height - railPadding * 2);
+      
+      // Add felt texture
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      for (let i = 0; i < canvas.width; i += 4) {
+        for (let j = 0; j < canvas.height; j += 4) {
+          if ((i + j) % 8 === 0) {
+            ctx.fillRect(i, j, 2, 2);
+          }
+        }
+      }
+      
+      // Draw rails (cushions)
+      ctx.fillStyle = '#8b4513';
+      // Top rail
+      ctx.fillRect(0, 0, canvas.width, railPadding);
+      // Bottom rail
+      ctx.fillRect(0, canvas.height - railPadding, canvas.width, railPadding);
+      // Left rail
+      ctx.fillRect(0, 0, railPadding, canvas.height);
+      // Right rail
+      ctx.fillRect(canvas.width - railPadding, 0, railPadding, canvas.height);
+      
+      // Update physics
+      updatePoolTablePhysics();
+      
+      // Draw balls
+      for (const ball of poolBalls) {
+        // Ball shadow
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.beginPath();
+        ctx.ellipse(ball.x + 2, ball.y + 2, ball.radius, ball.radius * 0.6, 0, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Ball body
+        const gradient = ctx.createRadialGradient(
+          ball.x - ball.radius * 0.3, 
+          ball.y - ball.radius * 0.3, 
+          0,
+          ball.x, 
+          ball.y, 
+          ball.radius
+        );
+        gradient.addColorStop(0, ball.color === '#000000' ? '#333333' : 
+          ball.color === '#FFFFFF' ? '#FFFFFF' : lightenColor(ball.color, 30));
+        gradient.addColorStop(1, ball.color);
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Ball border
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Ball number/label
+        if (ball.label) {
+          ctx.fillStyle = ball.number === 8 || ball.number === 0 ? '#FFFFFF' : '#000000';
+          ctx.font = `bold ${ball.radius * 0.6}px Arial`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(ball.label, ball.x, ball.y);
+        }
+        
+        // Velocity indicator (optional - shows direction)
+        if (Math.abs(ball.vx) > 0.5 || Math.abs(ball.vy) > 0.5) {
+          ctx.strokeStyle = 'rgba(218, 165, 32, 0.5)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(ball.x, ball.y);
+          ctx.lineTo(ball.x + ball.vx * 5, ball.y + ball.vy * 5);
+          ctx.stroke();
+        }
+      }
+    }
+
+    function lightenColor(color, percent) {
+      const num = parseInt(color.replace('#', ''), 16);
+      const r = Math.min(255, (num >> 16) + percent);
+      const g = Math.min(255, ((num >> 8) & 0x00FF) + percent);
+      const b = Math.min(255, (num & 0x0000FF) + percent);
+      return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+    }
+
+    // Reset pool table when switching modes
+    const originalModeSwitch = document.querySelectorAll('.mode-btn');
+    originalModeSwitch.forEach(btn => {
+      const originalClick = btn.onclick;
+      btn.addEventListener('click', () => {
+        if (btn.dataset.mode !== 'pooltable') {
+          poolTableInitialized = false;
+        }
+      });
+    });
 
     drawVisualizer();
 
