@@ -1531,6 +1531,11 @@
         modeButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         visualizerMode = btn.dataset.mode;
+        // Reset pool table when switching away from it
+        if (visualizerMode !== 'pooltable') {
+          poolTableInitialized = false;
+          poolBalls = [];
+        }
       });
     });
 
