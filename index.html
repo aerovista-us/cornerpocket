@@ -1494,6 +1494,10 @@
             img.src = imgSrc;
             img.alt = product.title;
             img.classList.toggle('active', index === 0);
+            img.onerror = function() {
+              console.warn('Failed to load image:', imgSrc);
+              this.style.display = 'none';
+            };
             imageContainer.appendChild(img);
           });
         } else {
@@ -1542,6 +1546,10 @@
           img.src = imgSrc;
           img.alt = product.title;
           img.classList.toggle('active', index === 0);
+          img.onerror = function() {
+            console.warn('Failed to load modal image:', imgSrc);
+            this.style.display = 'none';
+          };
           modalImage.appendChild(img);
         });
         
