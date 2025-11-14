@@ -4,17 +4,19 @@ An interactive audio player with pool hall aesthetics for CDA Pool Leagues track
 
 ## Features
 
-- 🎵 **Audio Player** - Play "Call It Corner (Optimized)" track
+- 🎵 **Multi-Track Playlist** - Play all three "Calling It Corner" tracks
 - 📊 **Real-time Visualization** - Multiple visualizer modes with pool-themed colors
 - 🎨 **Pool Hall Theme** - Green felt, wood tones, and billiards aesthetics
 - 🎮 **Interactive Game** - "Sink the 8-Ball" mini-game
 - 🔊 **High-Quality Audio** - Enhanced audio processing (48kHz, 2048 FFT)
-- ⏱️ **Full Player Controls** - Play, pause, stop, seek, volume
+- ⏱️ **Full Player Controls** - Play, pause, stop, previous, next, seek, volume
 - 📱 **Responsive Design** - Works on desktop and mobile devices
 
 ## Tracks
 
 1. **Call It Corner (Optimized)** - Thursday League · CDA Night Life
+2. **Two Rails and a Promise** - CDA Pool Leagues
+3. **Call It Corner (Sherman Ave)** - CDA Pool Leagues
 
 ## Visualizer Modes
 
@@ -27,7 +29,8 @@ An interactive audio player with pool hall aesthetics for CDA Pool Leagues track
 
 - **Clickable Corners** - Find hidden corner pockets on the album art
 - **Sink the 8-Ball Game** - Click the 8-ball on a pool table before time runs out
-- **Auto-restart** - Automatically restarts track when it ends
+- **Playlist Navigation** - Click any track to switch instantly
+- **Auto-play Next** - Automatically plays next track when current ends
 
 ## Technical Details
 

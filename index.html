@@ -496,16 +496,26 @@
 
     <div class="player-container">
       <div class="playlist-container">
-        <h4 style="color: #daa520; margin-top: 0;">Now Playing</h4>
+        <h4 style="color: #daa520; margin-top: 0;">Playlist</h4>
         <div class="playlist-item active" data-track="0">
           <div class="playlist-item-title">Call It Corner (Optimized)</div>
           <div class="playlist-item-subtitle">Thursday League · CDA Night Life</div>
         </div>
+        <div class="playlist-item" data-track="1">
+          <div class="playlist-item-title">Two Rails and a Promise</div>
+          <div class="playlist-item-subtitle">CDA Pool Leagues</div>
+        </div>
+        <div class="playlist-item" data-track="2">
+          <div class="playlist-item-title">Call It Corner (Sherman Ave)</div>
+          <div class="playlist-item-subtitle">CDA Pool Leagues</div>
+        </div>
       </div>
 
       <div class="control-buttons">
+        <button id="prevBtn">⏮ Prev</button>
         <button id="playPauseBtn" class="play-btn">▶ Play</button>
         <button id="stopBtn">⏹ Stop</button>
+        <button id="nextBtn">Next ⏭</button>
       </div>
       
       <div class="progress-container">
@@ -547,6 +557,16 @@
         title: "Call It Corner (Optimized)",
         subtitle: "Thursday League · CDA Night Life",
         file: "audio/Call It Corner (Optimized · Thursday League · CDA Night Life).mp3"
+      },
+      {
+        title: "Two Rails and a Promise",
+        subtitle: "CDA Pool Leagues",
+        file: "audio/\"Two Rails and a Promise\".mp3"
+      },
+      {
+        title: "Call It Corner (Sherman Ave)",
+        subtitle: "CDA Pool Leagues",
+        file: "audio/\"Call It Corner (Sherman Ave)\".mp3"
       }
     ];
 
@@ -554,6 +574,8 @@
     const audio = document.getElementById('audioPlayer');
     const playPauseBtn = document.getElementById('playPauseBtn');
     const stopBtn = document.getElementById('stopBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
     const progressBar = document.getElementById('progressBar');
     const progressFill = document.getElementById('progressFill');
     const currentTimeEl = document.getElementById('currentTime');
@@ -676,9 +698,28 @@
       playPauseBtn.classList.add('play-btn');
     });
 
-    // Auto-restart track when ended (since only one track)
+    // Previous
+    prevBtn.addEventListener('click', () => {
+      const newIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+      loadTrack(newIndex);
+      if (!audio.paused) {
+        audio.play();
+      }
+    });
+
+    // Next
+    nextBtn.addEventListener('click', () => {
+      const newIndex = (currentTrackIndex + 1) % tracks.length;
+      loadTrack(newIndex);
+      if (!audio.paused) {
+        audio.play();
+      }
+    });
+
+    // Auto-play next track
     audio.addEventListener('ended', () => {
-      audio.currentTime = 0;
+      const newIndex = (currentTrackIndex + 1) % tracks.length;
+      loadTrack(newIndex);
       audio.play();
     });
 
