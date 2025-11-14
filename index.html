@@ -631,7 +631,11 @@
     function loadTrack(index) {
       currentTrackIndex = index;
       const track = tracks[index];
-      audio.src = track.file;
+      // URL encode the file path to handle special characters like curly quotes
+      const encodedPath = track.file.split('/').map(part => 
+        encodeURIComponent(part).replace(/%20/g, ' ')
+      ).join('/');
+      audio.src = encodedPath;
       
       // Update playlist UI
       playlistItems.forEach((item, i) => {
@@ -642,6 +646,9 @@
       if (audio.readyState >= 2) {
         totalTimeEl.textContent = formatTime(audio.duration);
       }
+      
+      // Log for debugging
+      console.log('Loading track:', track.title, 'Path:', encodedPath);
     }
 
     // Format time
