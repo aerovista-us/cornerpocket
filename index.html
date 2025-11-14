@@ -1331,6 +1331,162 @@
     restartGame.addEventListener('click', () => {
       startGame();
     });
+
+    // Store functionality
+    const storeBtn = document.getElementById('storeBtn');
+    const storeOverlay = document.getElementById('storeOverlay');
+    const closeStore = document.getElementById('closeStore');
+    const storeGrid = document.getElementById('storeGrid');
+    const productModal = document.getElementById('productModal');
+    const closeModal = document.getElementById('closeModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalFeatures = document.getElementById('modalFeatures');
+    const buyBtn = document.getElementById('buyBtn');
+
+    const products = [
+      {
+        id: 1,
+        title: "CDA Pool League T-Shirt",
+        description: "Official CDA Pool League t-shirt with embroidered logo",
+        price: "$24.99",
+        image: "🎱",
+        features: [
+          "100% Cotton",
+          "Embroidered CDA Pool League logo",
+          "Available in multiple sizes",
+          "Machine washable"
+        ],
+        paymentLink: "#" // Replace with actual Square payment link
+      },
+      {
+        id: 2,
+        title: "Pool Cue Case",
+        description: "Professional pool cue case with padded interior",
+        price: "$89.99",
+        image: "🎯",
+        features: [
+          "Holds 2 cues",
+          "Padded interior protection",
+          "CDA Pool League branding",
+          "Durable construction"
+        ],
+        paymentLink: "#"
+      },
+      {
+        id: 3,
+        title: "Pool Chalk Set",
+        description: "Premium pool chalk set with carrying case",
+        price: "$12.99",
+        image: "⚪",
+        features: [
+          "12 pieces of premium chalk",
+          "Carrying case included",
+          "Long-lasting formula",
+          "CDA Pool League branded"
+        ],
+        paymentLink: "#"
+      },
+      {
+        id: 4,
+        title: "CDA Pool League Hoodie",
+        description: "Comfortable hoodie perfect for league nights",
+        price: "$49.99",
+        image: "🎱",
+        features: [
+          "80% Cotton, 20% Polyester",
+          "Kangaroo pocket",
+          "Drawstring hood",
+          "CDA Pool League embroidery"
+        ],
+        paymentLink: "#"
+      },
+      {
+        id: 5,
+        title: "Pool Ball Set",
+        description: "Professional tournament-grade pool ball set",
+        price: "$79.99",
+        image: "🎱",
+        features: [
+          "Tournament-grade quality",
+          "Aramith Super Pro",
+          "Complete 16-ball set",
+          "Triangle included"
+        ],
+        paymentLink: "#"
+      },
+      {
+        id: 6,
+        title: "CDA Pool League Cap",
+        description: "Stylish cap with embroidered CDA Pool League logo",
+        price: "$19.99",
+        image: "🧢",
+        features: [
+          "Adjustable strap",
+          "Embroidered logo",
+          "Breathable fabric",
+          "One size fits all"
+        ],
+        paymentLink: "#"
+      }
+    ];
+
+    function renderStore() {
+      storeGrid.innerHTML = '';
+      products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <div class="product-image">${product.image}</div>
+          <div class="product-title">${product.title}</div>
+          <div class="product-description">${product.description}</div>
+          <div class="product-price">${product.price}</div>
+          <button class="product-btn" onclick="openProductModal(${product.id})">Learn More</button>
+        `;
+        storeGrid.appendChild(card);
+      });
+    }
+
+    window.openProductModal = function(productId) {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+
+      modalImage.innerHTML = product.image;
+      modalTitle.textContent = product.title;
+      modalPrice.textContent = product.price;
+      modalDescription.textContent = product.description;
+      
+      modalFeatures.innerHTML = '';
+      product.features.forEach(feature => {
+        const li = document.createElement('li');
+        li.textContent = feature;
+        modalFeatures.appendChild(li);
+      });
+
+      buyBtn.href = product.paymentLink;
+      productModal.classList.add('active');
+    };
+
+    storeBtn.addEventListener('click', () => {
+      storeOverlay.classList.add('active');
+      renderStore();
+    });
+
+    closeStore.addEventListener('click', () => {
+      storeOverlay.classList.remove('active');
+    });
+
+    closeModal.addEventListener('click', () => {
+      productModal.classList.remove('active');
+    });
+
+    productModal.addEventListener('click', (e) => {
+      if (e.target === productModal) {
+        productModal.classList.remove('active');
+      }
+    });
   </script>
 </body>
 </html>
