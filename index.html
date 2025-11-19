@@ -1015,7 +1015,7 @@
       {
         title: "Table Talk (HYPNOTIC CUT)",
         subtitle: "CDA Pool Leagues",
-        file: "Table_Talk _HYPNOTIC CUT.mp3"
+        file: "Videos/Table_Talk _HYPNOTIC CUT.mp3"
       }
     ];
 
@@ -1178,7 +1178,7 @@
       }
       
       // Use the file path directly - browser will handle encoding
-      audio.src = track.file;
+      audio.src = encodeURI(track.file);
       audio.load(); // Force reload
       
       // Update playlist UI - refresh items if needed
