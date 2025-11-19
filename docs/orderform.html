@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Corner Pocket | Call it Corner | EchoStory | EchoVerse | AeroVista LLC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --accent: #38bdf8;
+      --accent-soft: #0f172a;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0b1120 0, #020617 45%, #000 100%);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 12px;
+    }
+
+    .shell {
+      max-width: 720px;
+      width: 100%;
+      background: linear-gradient(135deg, rgba(56,189,248,0.12), rgba(94,234,212,0.04));
+      border-radius: 24px;
+      padding: 2px;
+      box-shadow:
+        0 24px 80px rgba(15,23,42,0.9),
+        0 0 0 1px rgba(15,23,42,1);
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, #020617, #020617 40%, #020617 100%);
+      border-radius: 22px;
+      padding: 26px 22px 24px;
+    }
+
+    header {
+      margin-bottom: 18px;
+    }
+
+    .tiny-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+
+    .tiny-tag {
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.85);
+      border: 1px solid rgba(55,65,81,0.75);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .tiny-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(56,189,248,0.9);
+    }
+
+    h1 {
+      font-size: 1.65rem;
+      margin: 2px 0 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: baseline;
+    }
+
+    h1 span.main {
+      font-weight: 650;
+    }
+
+    h1 span.sub {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .lead {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .pill {
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(31,41,55,0.9);
+    }
+
+    form {
+      margin-top: 10px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(31,41,55,0.9);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 14px;
+    }
+
+    @media (max-width: 640px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+      .shell {
+        border-radius: 18px;
+      }
+      .card {
+        border-radius: 16px;
+      }
+    }
+
+    .full-span {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px 9px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,0.95);
+      color: var(--text);
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #4b5563;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.6);
+      background: #020617;
+    }
+
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    .hint {
+      margin-top: 3px;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: none;
+      background: radial-gradient(circle at top left, #38bdf8, #0ea5e9, #0369a1);
+      color: #0b1120;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow:
+        0 12px 30px rgba(15,23,42,0.9),
+        0 0 0 1px rgba(15,23,42,1);
+      white-space: nowrap;
+    }
+
+    .btn-primary span.icon {
+      font-size: 1.05rem;
+      margin-top: 1px;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.05);
+      transform: translateY(-0.5px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0.5px);
+      box-shadow:
+        0 4px 16px rgba(15,23,42,0.9),
+        0 0 0 1px rgba(15,23,42,1);
+    }
+
+    .service-note {
+      font-size: 0.72rem;
+      opacity: 0.85;
+    }
+
+    .service-note strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .brand-footer {
+      margin-top: 10px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="card">
+      <header>
+        <div class="tiny-tag-row">
+          <span class="tiny-tag">
+            <span class="tiny-dot"></span>
+            Corner Pocket – Call it Corner Intake
+          </span>
+          <span class="tiny-tag">EchoStory • Custom Story-Songs</span>
+          <span class="tiny-tag">EchoVerse • Swamp-Hop Audio</span>
+        </div>
+        <h1>
+          <span class="main">Start a Corner, Story, or Song</span>
+          <span class="sub">Corner Pocket · EchoStory × EchoVerse · AeroVista LLC</span>
+        </h1>
+        <p class="lead">
+          Use this form while we’re wiring up Square:
+          start a Call it Corner conversation, an EchoStory package, a custom EchoVerse track,
+          or a broader AeroVista collaboration. We’ll follow up with details and payment options.
+        </p>
+        <div class="pill-row">
+          <span class="pill">🎱 Corner Pocket energy</span>
+          <span class="pill">👂 1:1 story intake</span>
+          <span class="pill">🎧 Custom music & sound</span>
+        </div>
+      </header>
+
+      <form
+        action="https://formspree.io/f/YOUR_FORM_ID_HERE"
+        method="POST"
+      >
+        <!-- Contact info -->
+        <div class="full-span">
+          <label for="name">Your name</label>
+          <input id="name" name="name" type="text" required placeholder="What should we call you?" />
+        </div>
+
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="_replyto" type="email" required placeholder="you@example.com" />
+          <p class="hint">We’ll use this to confirm details and send options.</p>
+        </div>
+
+        <div>
+          <label for="contact_pref">Preferred contact style</label>
+          <select id="contact_pref" name="contact_preference">
+            <option value="">Choose one (optional)</option>
+            <option value="email-only">Email only</option>
+            <option value="short-call">Short call after email</option>
+            <option value="async-notes">Async notes / questions first</option>
+          </select>
+        </div>
+
+        <!-- What they want -->
+        <div>
+          <label for="service_type">What are you here for?</label>
+          <select id="service_type" name="service_type" required>
+            <option value="">Select one</option>
+            <option value="call-it-corner">
+              Call it Corner — guided conversation / processing
+            </option>
+            <option value="echostory">
+              EchoStory — custom story-song / memory package
+            </option>
+            <option value="echoverse-track">
+              EchoVerse — custom Swamp-Hop / audio piece
+            </option>
+            <option value="aerovista-build">
+              AeroVista — tech / creative build (site, system, or experience)
+            </option>
+            <option value="not-sure">
+              Not sure yet — help me pick
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label for="budget_range">Approximate budget range</label>
+          <select id="budget_range" name="budget_range">
+            <option value="">Still feeling this out</option>
+            <option value="under-250">$0 – $250 (simple / starter)</option>
+            <option value="250-750">$250 – $750 (more custom detail)</option>
+            <option value="750-2000">$750 – $2,000 (deep work / multi-piece)</option>
+            <option value="2000-plus">$2,000+ (full experience / multi-layered)</option>
+          </select>
+        </div>
+
+        <!-- Details -->
+        <div class="full-span">
+          <label for="project_heartbeat">What’s the heartbeat of this project?</label>
+          <textarea
+            id="project_heartbeat"
+            name="project_heartbeat"
+            placeholder="Tell us who this is for, what’s going on, and what you hope they feel when they see or hear the final thing."
+            required
+          ></textarea>
+        </div>
+
+        <div class="full-span">
+          <label for="timeline">Timing / deadline</label>
+          <input
+            id="timeline"
+            name="timeline"
+            type="text"
+            placeholder="Example: “Soft goal in March, hard deadline before April 20”"
+          />
+          <p class="hint">
+            If this is tied to an event (birthday, memorial, launch, etc.), include the date.
+          </p>
+        </div>
+
+        <div class="full-span">
+          <label for="vibe_notes">Vibes, references, and non-negotiables</label>
+          <textarea
+            id="vibe_notes"
+            name="vibe_notes"
+            placeholder="Links to songs, moods, colors, phrases, or boundaries we should respect. Anything you absolutely want in—or absolutely want left out."
+          ></textarea>
+        </div>
+
+        <!-- Hidden + anti-spam -->
+        <input type="hidden" name="_subject"
+               value="New Corner Pocket / Call it Corner / EchoStory / EchoVerse inquiry" />
+
+        <div style="display:none;">
+          <label>Leave this field empty</label>
+          <input name="_gotcha" type="text" />
+        </div>
+
+        <!-- Footer row -->
+        <div class="full-span footer-row">
+          <div class="service-note">
+            <strong>What happens next?</strong><br />
+            We review your notes, follow up with questions if needed,
+            and then share clear options and Square payment links before anything is booked.
+          </div>
+          <button class="btn-primary" type="submit">
+            <span class="icon">➤</span>
+            <span>Send to the Corner</span>
+          </button>
+        </div>
+      </form>
+
+      <div class="brand-footer">
+        Corner Pocket · Operated within the AeroVista LLC ecosystem · EchoStory × EchoVerse
+      </div>
+    </div>
+  </div>
+</body>
+</html>

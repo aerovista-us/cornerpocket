@@ -919,6 +919,10 @@
           <div class="playlist-item-title">Table Talk (HYPNOTIC CUT)</div>
           <div class="playlist-item-subtitle">CDA Pool Leagues</div>
         </div>
+        <div class="playlist-item" data-track="5" draggable="true">
+          <div class="playlist-item-title">Chalk Lines & Tight Angles</div>
+          <div class="playlist-item-subtitle">CDA Pool Leagues</div>
+        </div>
       </div>
 
       <div class="control-buttons">
@@ -995,27 +999,32 @@
       {
         title: "Call It Corner (Optimized)",
         subtitle: "Thursday League · CDA Night Life",
-        file: "audio/Call_It_Corner_(Optimized_CDA Night Life).mp3"
+        file: "audio/call_it_corner_optimized_cda_night_life.mp3"
       },
       {
         title: "Two Rails and a Promise",
         subtitle: "CDA Pool Leagues",
-        file: "audio/Two_Rails_and_a_Promise.mp3"
+        file: "audio/two_rails_and_a_promise.mp3"
       },
       {
         title: "Call It Corner (Sherman Ave)",
         subtitle: "CDA Pool Leagues",
-        file: "audio/Call_It_Corner_(Sherman_Ave).mp3"
+        file: "audio/call_it_corner_sherman_ave.mp3"
       },
       {
         title: "Black Flag Shine",
         subtitle: "CDA Pool Leagues",
-        file: "audio/Black_FlagShine.mp3"
+        file: "audio/black_flagshine.mp3"
       },
       {
         title: "Table Talk (HYPNOTIC CUT)",
         subtitle: "CDA Pool Leagues",
-        file: "Videos/Table_Talk _HYPNOTIC CUT.mp3"
+        file: "audio/table_talk_hypnotic_cut.mp3"
+      },
+      {
+        title: "Chalk Lines & Tight Angles",
+        subtitle: "CDA Pool Leagues",
+        file: "audio/chalk_lines_and_tight_angles.mp3"
       }
     ];
 
@@ -1178,7 +1187,7 @@
       }
       
       // Use the file path directly - browser will handle encoding
-      audio.src = encodeURI(track.file);
+      audio.src = track.file;
       audio.load(); // Force reload
       
       // Update playlist UI - refresh items if needed
