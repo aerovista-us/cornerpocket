@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <title>Corner Pocket Merch Order | CDA Pool Leagues</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎱</text></svg>" />
+  <link
+    rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎱</text></svg>"
+  />
   <style>
     :root {
-      --pool-green: #2D8659;
-      --pool-green-dark: #1B5E3E;
+      --pool-green: #2d8659;
+      --pool-green-dark: #1b5e3e;
       --pool-brown: #8b4513;
       --pool-gold: #daa520;
       --bg-dark: #0a0f0a;
@@ -18,17 +21,38 @@
       --border: rgba(139, 69, 19, 0.3);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
       min-height: 100vh;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: 
-        radial-gradient(ellipse at top left, rgba(45, 134, 89, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom right, rgba(139, 69, 19, 0.2) 0%, transparent 50%),
-        radial-gradient(ellipse at center, rgba(218, 165, 32, 0.05) 0%, transparent 70%),
-        linear-gradient(135deg, #0a0f0a 0%, #1a1f1a 25%, #0f0a0a 50%, #1a1f1a 75%, #0a0f0a 100%);
+      background:
+        radial-gradient(
+          ellipse at top left,
+          rgba(45, 134, 89, 0.15) 0%,
+          transparent 50%
+        ),
+        radial-gradient(
+          ellipse at bottom right,
+          rgba(139, 69, 19, 0.2) 0%,
+          transparent 50%
+        ),
+        radial-gradient(
+          ellipse at center,
+          rgba(218, 165, 32, 0.05) 0%,
+          transparent 70%
+        ),
+        linear-gradient(
+          135deg,
+          #0a0f0a 0%,
+          #1a1f1a 25%,
+          #0f0a0a 50%,
+          #1a1f1a 75%,
+          #0a0f0a 100%
+        );
       color: var(--text);
       padding: 2rem 1rem;
       position: relative;
@@ -42,7 +66,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: 
+      background:
         repeating-linear-gradient(
           0deg,
           rgba(0, 0, 0, 0.15) 0px,
@@ -70,22 +94,32 @@
     }
 
     .shell {
-      background: linear-gradient(135deg, rgba(45, 134, 89, 0.2), rgba(139, 69, 19, 0.2));
+      background: linear-gradient(
+        135deg,
+        rgba(45, 134, 89, 0.2),
+        rgba(139, 69, 19, 0.2)
+      );
       border: 3px solid var(--pool-brown);
       border-radius: 16px;
       padding: 2px;
-      box-shadow: 
-        0 0 40px rgba(45, 134, 89, 0.3), 
+      box-shadow:
+        0 0 40px rgba(45, 134, 89, 0.3),
         inset 0 0 20px rgba(0, 0, 0, 0.3);
     }
 
     .card {
-      background: linear-gradient(135deg, rgba(10, 15, 10, 0.95), rgba(26, 31, 26, 0.95));
+      background: linear-gradient(
+        135deg,
+        rgba(10, 15, 10, 0.95),
+        rgba(26, 31, 26, 0.95)
+      );
       border-radius: 14px;
       padding: 2rem;
     }
 
-    header { margin-bottom: 1.5rem; }
+    header {
+      margin-bottom: 1.5rem;
+    }
 
     .tiny-tag-row {
       display: flex;
@@ -124,13 +158,20 @@
       flex-wrap: wrap;
       gap: 8px;
       align-items: baseline;
-      background: linear-gradient(90deg, var(--pool-green), var(--pool-gold), var(--pool-brown));
+      background: linear-gradient(
+        90deg,
+        var(--pool-green),
+        var(--pool-gold),
+        var(--pool-brown)
+      );
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    h1 span.main { font-weight: 700; }
+    h1 span.main {
+      font-weight: 700;
+    }
 
     h1 span.sub {
       font-size: 0.9rem;
@@ -172,12 +213,20 @@
     }
 
     @media (max-width: 640px) {
-      form { grid-template-columns: 1fr; }
-      .card { padding: 1.5rem; }
-      h1 { font-size: 1.5rem; }
+      form {
+        grid-template-columns: 1fr;
+      }
+      .card {
+        padding: 1.5rem;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
     }
 
-    .full-span { grid-column: 1 / -1; }
+    .full-span {
+      grid-column: 1 / -1;
+    }
 
     label {
       display: block;
@@ -196,7 +245,11 @@
       padding: 10px 12px;
       border-radius: 8px;
       border: 2px solid var(--pool-brown);
-      background: linear-gradient(135deg, rgba(45, 134, 89, 0.1), rgba(139, 69, 19, 0.1));
+      background: linear-gradient(
+        135deg,
+        rgba(45, 134, 89, 0.1),
+        rgba(139, 69, 19, 0.1)
+      );
       color: var(--text);
       font-size: 0.95rem;
       outline: none;
@@ -212,8 +265,14 @@
     select:focus,
     textarea:focus {
       border-color: var(--pool-gold);
-      box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.3), 0 0 15px rgba(218, 165, 32, 0.2);
-      background: linear-gradient(135deg, rgba(45, 134, 89, 0.15), rgba(139, 69, 19, 0.15));
+      box-shadow:
+        0 0 0 2px rgba(218, 165, 32, 0.3),
+        0 0 15px rgba(218, 165, 32, 0.2);
+      background: linear-gradient(
+        135deg,
+        rgba(45, 134, 89, 0.15),
+        rgba(139, 69, 19, 0.15)
+      );
     }
 
     textarea {
@@ -248,23 +307,27 @@
       padding: 12px 24px;
       border-radius: 8px;
       border: 2px solid var(--pool-gold);
-      background: linear-gradient(135deg, var(--pool-green), var(--pool-green-dark));
+      background: linear-gradient(
+        135deg,
+        var(--pool-green),
+        var(--pool-green-dark)
+      );
       color: var(--pool-gold);
       font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 
-        0 4px 15px rgba(45, 134, 89, 0.3), 
+      box-shadow:
+        0 4px 15px rgba(45, 134, 89, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
       white-space: nowrap;
     }
 
     .btn-primary:hover {
-      background: linear-gradient(135deg, #0D9488, var(--pool-green));
+      background: linear-gradient(135deg, #0d9488, var(--pool-green));
       transform: translateY(-2px);
-      box-shadow: 
-        0 6px 20px rgba(45, 134, 89, 0.5), 
+      box-shadow:
+        0 6px 20px rgba(45, 134, 89, 0.5),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
 
@@ -342,16 +405,19 @@
               <span class="tiny-dot"></span>
               Corner Pocket · CDA Pool League Store
             </span>
+            <span class="tiny-tag">EchoStory · EchoVerse · AeroVista LLC</span>
             <span class="tiny-tag">Printful Fulfillment</span>
           </div>
           <h1>
             <span class="main">🎱 Corner Pocket Merch Order</span>
-            <span class="sub">Submit your gear request · We'll invoice + ship</span>
+            <span class="sub">
+              Submit your gear request · We'll invoice + ship
+            </span>
           </h1>
           <p class="lead">
-            Browse the <strong>CDA Pool League Store</strong> on this site,
-            then use this form to request what you want. We'll confirm details,
-            send a payment link, and fulfill through Printful.
+            Browse the <strong>CDA Pool League Store</strong> on this site, then
+            use this form to request what you want. We'll confirm details, send
+            a payment link, and fulfill through Printful.
           </p>
           <div class="pill-row">
             <span class="pill">🎱 Hoodies, tees, hats, stickers</span>
@@ -366,23 +432,42 @@
           id="order-form"
           action="https://formspree.io/f/xzzoepbk"
           method="POST"
-          data-formspree-id=https://formspree.io/f/xzzoepbk
+          data-formspree-id="xzzoepbk"
         >
           <!-- Contact info -->
           <div class="full-span">
             <label for="name">Your name</label>
-            <input id="name" name="name" type="text" required placeholder="What should we call you?" />
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              placeholder="What should we call you?"
+            />
           </div>
 
           <div>
             <label for="email">Email</label>
-            <input id="email" name="_replyto" type="email" required placeholder="you@example.com" />
-            <p class="hint">We'll use this to confirm your order and send payment details.</p>
+            <input
+              id="email"
+              name="_replyto"
+              type="email"
+              required
+              placeholder="you@example.com"
+            />
+            <p class="hint">
+              We'll use this to confirm your order and send payment details.
+            </p>
           </div>
 
           <div>
             <label for="phone">Phone (optional)</label>
-            <input id="phone" name="phone" type="tel" placeholder="If you prefer text updates" />
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              placeholder="If you prefer text updates"
+            />
           </div>
 
           <!-- Order details -->
@@ -395,22 +480,41 @@
               required
               placeholder="Copy product title from the store (e.g., 'CDA Pool League Hoodie')"
             />
-            <p class="hint">Tip: highlight + copy the exact title from the store section above.</p>
+            <p class="hint">
+              Tip: highlight + copy the exact title from the store section
+              above.
+            </p>
           </div>
 
           <div>
             <label for="item_1_size">Item 1 – Size</label>
-            <input id="item_1_size" name="item_1_size" type="text" placeholder="M, L, XL, etc." />
+            <input
+              id="item_1_size"
+              name="item_1_size"
+              type="text"
+              placeholder="M, L, XL, etc."
+            />
           </div>
 
           <div>
             <label for="item_1_color">Item 1 – Color</label>
-            <input id="item_1_color" name="item_1_color" type="text" placeholder="Black, White, etc." />
+            <input
+              id="item_1_color"
+              name="item_1_color"
+              type="text"
+              placeholder="Black, White, etc."
+            />
           </div>
 
           <div>
             <label for="item_1_qty">Item 1 – Quantity</label>
-            <input id="item_1_qty" name="item_1_quantity" type="number" min="1" value="1" />
+            <input
+              id="item_1_qty"
+              name="item_1_quantity"
+              type="number"
+              min="1"
+              value="1"
+            />
           </div>
 
           <div>
@@ -436,17 +540,33 @@
 
           <div>
             <label for="item_2_size">Item 2 – Size</label>
-            <input id="item_2_size" name="item_2_size" type="text" placeholder="M, L, XL, etc." />
+            <input
+              id="item_2_size"
+              name="item_2_size"
+              type="text"
+              placeholder="M, L, XL, etc."
+            />
           </div>
 
           <div>
             <label for="item_2_color">Item 2 – Color</label>
-            <input id="item_2_color" name="item_2_color" type="text" placeholder="Black, White, etc." />
+            <input
+              id="item_2_color"
+              name="item_2_color"
+              type="text"
+              placeholder="Black, White, etc."
+            />
           </div>
 
           <div>
             <label for="item_2_qty">Item 2 – Quantity</label>
-            <input id="item_2_qty" name="item_2_quantity" type="number" min="1" value="1" />
+            <input
+              id="item_2_qty"
+              name="item_2_quantity"
+              type="number"
+              min="1"
+              value="1"
+            />
           </div>
 
           <div>
@@ -494,7 +614,7 @@
             value="https://aerovista-us.github.io/cornerpocket/"
           />
 
-          <div style="display:none;">
+          <div style="display: none;">
             <label>Leave this field empty</label>
             <input name="_gotcha" type="text" />
           </div>
@@ -502,8 +622,8 @@
           <!-- Footer row -->
           <div class="full-span footer-row">
             <div>
-              We'll review your request, confirm totals and shipping,
-              then send you a Square payment link before fulfilling via Printful.
+              We'll review your request, confirm totals and shipping, then send
+              you a Square payment link before fulfilling via Printful.
             </div>
             <button class="btn-primary" type="submit" id="submit-btn">
               <span class="icon">➤</span>
@@ -513,7 +633,7 @@
         </form>
 
         <div class="brand-footer">
-          CDA Pool Leagues · Corner Pocket Store · Fulfilled via Printful · 
+          CDA Pool Leagues · Corner Pocket Store · Fulfilled via Printful ·
           <a href="https://aerovista.us" target="_blank">AeroVista LLC</a>
         </div>
       </div>
@@ -522,35 +642,35 @@
 
   <script>
     // Pre-populate form from URL parameters (when coming from Buy Now button)
-    (function() {
+    (function () {
       const urlParams = new URLSearchParams(window.location.search);
       const productName = urlParams.get('product_name');
       const productPrice = urlParams.get('product_price');
-      const productId = urlParams.get('product_id');
 
       if (productName) {
-        // Pre-fill the first item name field
         const item1NameInput = document.getElementById('item_1');
         if (item1NameInput) {
           item1NameInput.value = productName;
-          
-          // Add a visual indicator that this was pre-filled
+
+          // Visual indicator
           item1NameInput.style.borderColor = 'var(--pool-gold)';
-          item1NameInput.style.boxShadow = '0 0 0 2px rgba(218, 165, 32, 0.3), 0 0 15px rgba(218, 165, 32, 0.2)';
-          
-          // Show price as a hint if available
+          item1NameInput.style.boxShadow =
+            '0 0 0 2px rgba(218, 165, 32, 0.3), 0 0 15px rgba(218, 165, 32, 0.2)';
+
           if (productPrice) {
             const hint = item1NameInput.nextElementSibling;
             if (hint && hint.classList.contains('hint')) {
               hint.textContent = `Pre-filled from store • Price: ${productPrice}`;
               hint.style.color = 'var(--pool-gold)';
             } else {
-              // Create hint if it doesn't exist
               const newHint = document.createElement('p');
               newHint.className = 'hint';
               newHint.textContent = `Pre-filled from store • Price: ${productPrice}`;
               newHint.style.color = 'var(--pool-gold)';
-              item1NameInput.parentNode.insertBefore(newHint, item1NameInput.nextSibling);
+              item1NameInput.parentNode.insertBefore(
+                newHint,
+                item1NameInput.nextSibling
+              );
             }
           }
         }
@@ -558,42 +678,35 @@
     })();
 
     // Formspree form handling
-    (function() {
+    (function () {
+      const FORM_ID = 'xzzoepbk'; // your configured Formspree ID
+
       const form = document.getElementById('order-form');
       const messageDiv = document.getElementById('form-message');
       const submitBtn = document.getElementById('submit-btn');
 
       if (!form) return;
 
-      // Check if Formspree form ID is configured
-      const formAction = form.action;
-      const formId = form.dataset.formspreeId || formAction.split('/f/')[1];
-      
-      if (!formId || formId === 'YOUR_FORM_ID_HERE') {
-        // Form ID not configured - show setup instructions
+      // Just a minimal safety check now; it's already configured
+      if (!FORM_ID) {
         messageDiv.className = 'form-message error';
-        messageDiv.innerHTML = `
-          <strong>⚠️ Formspree Not Configured</strong><br>
-          To enable form submissions, you need to:<br>
-          1. Create a free account at <a href="https://formspree.io" target="_blank" style="color: var(--pool-gold);">formspree.io</a><br>
-          2. Create a new form and get your form ID<br>
-          3. Replace <code>YOUR_FORM_ID_HERE</code> in the form action with your actual form ID<br>
-          <br>
-          <small>Example: <code>https://formspree.io/f/abc123xyz</code></small>
-        `;
+        messageDiv.innerHTML =
+          '❌ Form configuration error. Please contact the site admin.';
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="icon">⚠️</span><span>Form Not Configured</span>';
+        submitBtn.innerHTML =
+          '<span class="icon">⚠️</span><span>Form Disabled</span>';
         return;
       }
 
-      form.addEventListener('submit', async function(e) {
+      form.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        // Show loading state
+        // Loading state
         messageDiv.className = 'form-message loading';
         messageDiv.textContent = '⏳ Sending your order request...';
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="icon">⏳</span><span>Sending...</span>';
+        submitBtn.innerHTML =
+          '<span class="icon">⏳</span><span>Sending...</span>';
 
         try {
           const formData = new FormData(form);
@@ -601,63 +714,60 @@
             method: 'POST',
             body: formData,
             headers: {
-              'Accept': 'application/json'
-            }
+              Accept: 'application/json',
+            },
           });
 
           if (response.ok) {
-            // Success
             messageDiv.className = 'form-message success';
-            messageDiv.textContent = '✅ Order request submitted successfully! We\'ll review your request and send you a payment link soon.';
+            messageDiv.textContent =
+              "✅ Order request submitted successfully! We'll review your request and send you a payment link soon.";
             form.reset();
-            
-            // Scroll to message
-            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            messageDiv.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest',
+            });
           } else {
-            // Error from Formspree
-            const data = await response.json();
-            let errorMsg = data.error || 'Something went wrong. Please try again.';
-            
-            // Handle specific Formspree errors
+            const data = await response.json().catch(() => ({}));
+            let errorMsg =
+              data.error || 'Something went wrong. Please try again.';
+
             if (response.status === 404) {
-              errorMsg = 'Form not found. Please check that your Formspree form ID is correct.';
+              errorMsg =
+                'Form not found. Please check that your Formspree form ID is correct.';
             } else if (response.status === 429) {
               errorMsg = 'Too many submissions. Please try again later.';
             }
-            
+
             throw new Error(errorMsg);
           }
         } catch (error) {
-          // Network or other error
           messageDiv.className = 'form-message error';
-          let errorText = error.message || 'Failed to submit. Please check your connection and try again.';
-          
-          // Check if it's a network error
-          if (error.message.includes('fetch') || error.message.includes('network')) {
-            errorText = 'Network error. Please check your internet connection and try again.';
+          let errorText =
+            error.message ||
+            'Failed to submit. Please check your connection and try again.';
+
+          if (
+            error.message &&
+            (error.message.toLowerCase().includes('fetch') ||
+              error.message.toLowerCase().includes('network'))
+          ) {
+            errorText =
+              'Network error. Please check your internet connection and try again.';
           }
-          
+
           messageDiv.textContent = `❌ Error: ${errorText}`;
-          
-          // Scroll to message
-          messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          messageDiv.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+          });
         } finally {
           submitBtn.disabled = false;
-          submitBtn.innerHTML = '<span class="icon">➤</span><span>Submit Order Request</span>';
+          submitBtn.innerHTML =
+            '<span class="icon">➤</span><span>Submit Order Request</span>';
         }
       });
     })();
   </script>
 </body>
 </html>
-cornerpocket/:1204 Loading track: Call It Corner (Sherman Ave) Path: audio/call_it_corner_sherman_ave.mp3 Full URL: https://aerovista-us.github.io/cornerpocket/audio/call_it_corner_sherman_ave.mp3
-cornerpocket/:1205 Track index: 2 Current track index: 2 Track object: {title: 'Call It Corner (Sherman Ave)', subtitle: 'CDA Pool Leagues', file: 'audio/call_it_corner_sherman_ave.mp3'}
-cornerpocket/:1563 Audio can play through without buffering
-cornerpocket/:1589 Audio loading suspended
-cornerpocket/:1204 Loading track: Call It Corner (Optimized) Path: audio/call_it_corner_optimized_cda_night_life.mp3 Full URL: https://aerovista-us.github.io/cornerpocket/audio/call_it_corner_optimized_cda_night_life.mp3
-cornerpocket/:1205 Track index: 0 Current track index: 0 Track object: {title: 'Call It Corner (Optimized)', subtitle: 'Thursday League · CDA Night Life', file: 'audio/call_it_corner_optimized_cda_night_life.mp3'}
-cornerpocket/:1204 Loading track: Call It Corner (Optimized) Path: audio/call_it_corner_optimized_cda_night_life.mp3 Full URL: https://aerovista-us.github.io/cornerpocket/audio/call_it_corner_optimized_cda_night_life.mp3
-cornerpocket/:1205 Track index: 0 Current track index: 0 Track object: {title: 'Call It Corner (Optimized)', subtitle: 'Thursday League · CDA Night Life', file: 'audio/call_it_corner_optimized_cda_night_life.mp3'}
-cornerpocket/:1204 Loading track: Two Rails and a Promise Path: audio/two_rails_and_a_promise.mp3 Full URL: https://aerovista-us.github.io/cornerpocket/audio/two_rails_and_a_promise.mp3
-cornerpocket/:1205 Track index: 1 Current track index: 1 Track object: {title: 'Two Rails and a Promise', subtitle: 'CDA Pool Leagues', file: 'audio/two_rails_and_a_promise.mp3'}
-cornerpocket/:1204 Loading track: Black Flag Shine Path: audio/black_flagshine.mp3 Full URL: https://aerovista-us.github.io/cornerpocket/audio/black_flagshine.mp3
