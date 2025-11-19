@@ -366,6 +366,7 @@
           id="order-form"
           action="https://formspree.io/f/YOUR_FORM_ID_HERE"
           method="POST"
+          data-formspree-id="YOUR_FORM_ID_HERE"
         >
           <!-- Contact info -->
           <div class="full-span">
@@ -564,6 +565,27 @@
 
       if (!form) return;
 
+      // Check if Formspree form ID is configured
+      const formAction = form.action;
+      const formId = form.dataset.formspreeId || formAction.split('/f/')[1];
+      
+      if (!formId || formId === 'YOUR_FORM_ID_HERE') {
+        // Form ID not configured - show setup instructions
+        messageDiv.className = 'form-message error';
+        messageDiv.innerHTML = `
+          <strong>⚠️ Formspree Not Configured</strong><br>
+          To enable form submissions, you need to:<br>
+          1. Create a free account at <a href="https://formspree.io" target="_blank" style="color: var(--pool-gold);">formspree.io</a><br>
+          2. Create a new form and get your form ID<br>
+          3. Replace <code>YOUR_FORM_ID_HERE</code> in the form action with your actual form ID<br>
+          <br>
+          <small>Example: <code>https://formspree.io/f/abc123xyz</code></small>
+        `;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="icon">⚠️</span><span>Form Not Configured</span>';
+        return;
+      }
+
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
@@ -594,12 +616,28 @@
           } else {
             // Error from Formspree
             const data = await response.json();
-            throw new Error(data.error || 'Something went wrong. Please try again.');
+            let errorMsg = data.error || 'Something went wrong. Please try again.';
+            
+            // Handle specific Formspree errors
+            if (response.status === 404) {
+              errorMsg = 'Form not found. Please check that your Formspree form ID is correct.';
+            } else if (response.status === 429) {
+              errorMsg = 'Too many submissions. Please try again later.';
+            }
+            
+            throw new Error(errorMsg);
           }
         } catch (error) {
           // Network or other error
           messageDiv.className = 'form-message error';
-          messageDiv.textContent = `❌ Error: ${error.message || 'Failed to submit. Please check your connection and try again.'}`;
+          let errorText = error.message || 'Failed to submit. Please check your connection and try again.';
+          
+          // Check if it's a network error
+          if (error.message.includes('fetch') || error.message.includes('network')) {
+            errorText = 'Network error. Please check your internet connection and try again.';
+          }
+          
+          messageDiv.textContent = `❌ Error: ${errorText}`;
           
           // Scroll to message
           messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -612,3 +650,14 @@
   </script>
 </body>
 </html>
+cornerpocket/:1204 Loading track: Call It Corner (Sherman Ave) Path: audio/call_it_corner_sherman_ave.mp3 Full URL: https://aerovista-us.github.io/cornerpocket/audio/call_it_corner_sherman_ave.mp3
+cornerpocket/:1205 Track index: 2 Current track index: 2 Track object: {title: 'Call It Corner (Sherman Ave)', subtitle: 'CDA Pool Leagues', file: 'audio/call_it_corner_sherman_ave.mp3'}
+cornerpocket/:1563 Audio can play through without buffering
+cornerpocket/:1589 Audio loading suspended
+cornerpocket/:1204 Loading track: Call It Corner (Optimized) Path: audio/call_it_corner_optimized_cda_night_life.mp3 Full URL: https://aerovista-us.github.io/cornerpocket/audio/call_it_corner_optimized_cda_night_life.mp3
+cornerpocket/:1205 Track index: 0 Current track index: 0 Track object: {title: 'Call It Corner (Optimized)', subtitle: 'Thursday League · CDA Night Life', file: 'audio/call_it_corner_optimized_cda_night_life.mp3'}
+cornerpocket/:1204 Loading track: Call It Corner (Optimized) Path: audio/call_it_corner_optimized_cda_night_life.mp3 Full URL: https://aerovista-us.github.io/cornerpocket/audio/call_it_corner_optimized_cda_night_life.mp3
+cornerpocket/:1205 Track index: 0 Current track index: 0 Track object: {title: 'Call It Corner (Optimized)', subtitle: 'Thursday League · CDA Night Life', file: 'audio/call_it_corner_optimized_cda_night_life.mp3'}
+cornerpocket/:1204 Loading track: Two Rails and a Promise Path: audio/two_rails_and_a_promise.mp3 Full URL: https://aerovista-us.github.io/cornerpocket/audio/two_rails_and_a_promise.mp3
+cornerpocket/:1205 Track index: 1 Current track index: 1 Track object: {title: 'Two Rails and a Promise', subtitle: 'CDA Pool Leagues', file: 'audio/two_rails_and_a_promise.mp3'}
+cornerpocket/:1204 Loading track: Black Flag Shine Path: audio/black_flagshine.mp3 Full URL: https://aerovista-us.github.io/cornerpocket/audio/black_flagshine.mp3
