@@ -1186,8 +1186,9 @@
         }
       }
       
-      // Use the file path directly - browser will handle encoding
-      audio.src = track.file;
+      // Use path relative to current page location for proper resolution
+      const audioPath = new URL(track.file, window.location.href).href;
+      audio.src = audioPath;
       audio.load(); // Force reload
       
       // Update playlist UI - refresh items if needed
