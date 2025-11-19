@@ -2366,15 +2366,28 @@
         buyBtn.href = product.paymentLink;
         buyBtn.onclick = null; // Remove any previous onclick handler
       } else {
-        // Link to order form with product data as URL parameters
-        const orderFormPath = new URL('docs/orderform.html', window.location.href).href;
-        const params = new URLSearchParams({
-          product_name: product.title,
-          product_price: product.price,
-          product_id: product.id.toString()
-        });
-        buyBtn.href = `${orderFormPath}?${params.toString()}`;
-        buyBtn.onclick = null; // Remove any previous onclick handler
+        // Add to cart and redirect to order form
+        buyBtn.href = new URL('docs/orderform.html', window.location.href).href;
+        buyBtn.onclick = (e) => {
+          e.preventDefault();
+          // Add product to cart in localStorage
+          const cart = JSON.parse(localStorage.getItem('cornerpocket_cart') || '[]');
+          const cartItem = {
+            id: Date.now() + Math.random(),
+            productId: product.id,
+            title: product.title,
+            price: product.price,
+            image: product.images && product.images.length > 0 ? product.images[0] : null,
+            size: '',
+            color: '',
+            quantity: 1,
+            notes: ''
+          };
+          cart.push(cartItem);
+          localStorage.setItem('cornerpocket_cart', JSON.stringify(cart));
+          // Redirect to order form
+          window.location.href = buyBtn.href;
+        };
       }
       
       productModal.classList.add('active');

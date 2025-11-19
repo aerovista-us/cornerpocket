@@ -87,7 +87,7 @@
     }
 
     .container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
       position: relative;
       z-index: 1;
@@ -203,6 +203,229 @@
       border: 1px solid var(--border);
     }
 
+    /* View switcher */
+    .view-switcher {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .view-btn {
+      padding: 8px 16px;
+      background: transparent;
+      border: 2px solid transparent;
+      color: var(--text-muted);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .view-btn.active {
+      color: var(--pool-gold);
+      border-color: var(--pool-gold);
+      background: rgba(218, 165, 32, 0.1);
+    }
+
+    .view-btn:hover:not(.active) {
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    /* Cart view */
+    .view-section {
+      display: none;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    .cart-empty {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-muted);
+    }
+
+    .cart-empty-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .cart-items {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .cart-item {
+      background: linear-gradient(
+        135deg,
+        rgba(45, 134, 89, 0.1),
+        rgba(139, 69, 19, 0.1)
+      );
+      border: 2px solid var(--pool-brown);
+      border-radius: 12px;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .cart-item-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--pool-green-dark), var(--pool-green));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      border: 2px solid var(--pool-brown);
+      overflow: hidden;
+    }
+
+    .cart-item-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cart-item-details {
+      flex: 1;
+    }
+
+    .cart-item-title {
+      font-weight: 700;
+      color: var(--pool-gold);
+      margin-bottom: 4px;
+      font-size: 1rem;
+    }
+
+    .cart-item-price {
+      color: var(--pool-green);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .cart-item-options {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .cart-item-options span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .cart-item-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(45, 134, 89, 0.1);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px;
+    }
+
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: var(--pool-green);
+      color: var(--pool-gold);
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .qty-btn:hover {
+      background: var(--pool-green-dark);
+      transform: scale(1.1);
+    }
+
+    .qty-value {
+      min-width: 30px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .remove-btn {
+      padding: 6px 12px;
+      background: rgba(139, 69, 19, 0.3);
+      border: 1px solid var(--pool-brown);
+      color: var(--text);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+
+    .remove-btn:hover {
+      background: rgba(139, 69, 19, 0.5);
+      border-color: #cc0000;
+      color: #ff6b6b;
+    }
+
+    .cart-summary {
+      background: linear-gradient(
+        135deg,
+        rgba(45, 134, 89, 0.15),
+        rgba(139, 69, 19, 0.15)
+      );
+      border: 2px solid var(--pool-gold);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .cart-summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+
+    .cart-summary-row.total {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--pool-gold);
+      padding-top: 12px;
+      border-top: 2px solid var(--border);
+      margin-top: 12px;
+    }
+
+    .cart-summary-label {
+      color: var(--text-muted);
+    }
+
+    .cart-summary-value {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* Form view */
     form {
       margin-top: 20px;
       padding-top: 20px;
@@ -221,6 +444,14 @@
       }
       h1 {
         font-size: 1.5rem;
+      }
+      .cart-item {
+        grid-template-columns: 60px 1fr;
+      }
+      .cart-item-actions {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        justify-content: space-between;
       }
     }
 
@@ -345,6 +576,28 @@
       font-size: 1.1rem;
     }
 
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: 2px solid var(--pool-brown);
+      background: transparent;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(45, 134, 89, 0.1);
+      border-color: var(--pool-gold);
+      color: var(--pool-gold);
+    }
+
     .brand-footer {
       margin-top: 20px;
       padding-top: 16px;
@@ -393,6 +646,36 @@
       color: var(--pool-gold);
       display: block;
     }
+
+    .item-row {
+      background: linear-gradient(
+        135deg,
+        rgba(45, 134, 89, 0.05),
+        rgba(139, 69, 19, 0.05)
+      );
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .item-row-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .item-row-title {
+      font-weight: 700;
+      color: var(--pool-gold);
+      font-size: 1.1rem;
+    }
+
+    .item-row-price {
+      color: var(--pool-green);
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
@@ -411,226 +694,166 @@
           <h1>
             <span class="main">🎱 Corner Pocket Merch Order</span>
             <span class="sub">
-              Submit your gear request · We'll invoice + ship
+              Build your cart · Checkout · We'll invoice + ship
             </span>
           </h1>
           <p class="lead">
-            Browse the <strong>CDA Pool League Store</strong> on this site, then
-            use this form to request what you want. We'll confirm details, send
-            a payment link, and fulfill through Printful.
+            Browse the <strong>CDA Pool League Store</strong> and add items to your cart.
+            When ready, proceed to checkout and we'll confirm details, send a payment link,
+            and fulfill through Printful.
           </p>
           <div class="pill-row">
             <span class="pill">🎱 Hoodies, tees, hats, stickers</span>
             <span class="pill">📦 Printful on-demand shipping</span>
+            <span class="pill" id="cart-count-badge" style="display: none;">🛒 <span id="cart-count">0</span> items</span>
           </div>
         </header>
+
+        <!-- View Switcher -->
+        <div class="view-switcher">
+          <button class="view-btn active" data-view="cart" id="cart-view-btn">
+            🛒 Cart (<span id="cart-count-header">0</span>)
+          </button>
+          <button class="view-btn" data-view="checkout" id="checkout-view-btn">
+            ➤ Checkout
+          </button>
+        </div>
 
         <!-- Formspree messages -->
         <div id="form-message" class="form-message" role="alert"></div>
 
-        <form
-          id="order-form"
-          action="https://formspree.io/f/xzzoepbk"
-          method="POST"
-          data-formspree-id="xzzoepbk"
-        >
-          <!-- Contact info -->
-          <div class="full-span">
-            <label for="name">Your name</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              required
-              placeholder="What should we call you?"
-            />
-          </div>
-
-          <div>
-            <label for="email">Email</label>
-            <input
-              id="email"
-              name="_replyto"
-              type="email"
-              required
-              placeholder="you@example.com"
-            />
-            <p class="hint">
-              We'll use this to confirm your order and send payment details.
+        <!-- Cart View -->
+        <div id="cart-view" class="view-section active">
+          <div id="cart-empty" class="cart-empty" style="display: none;">
+            <div class="cart-empty-icon">🛒</div>
+            <h3 style="color: var(--text-muted); margin-bottom: 8px;">Your cart is empty</h3>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">
+              Browse the store and add items to get started!
             </p>
+            <a href="../index.html#storeBtn" class="btn-primary" style="text-decoration: none; display: inline-flex;">
+              <span>Browse Store</span>
+            </a>
           </div>
 
-          <div>
-            <label for="phone">Phone (optional)</label>
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              placeholder="If you prefer text updates"
-            />
-          </div>
+          <div id="cart-items" class="cart-items"></div>
 
-          <!-- Order details -->
-          <div class="full-span">
-            <label for="item_1">Item 1 – Product name</label>
-            <input
-              id="item_1"
-              name="item_1_name"
-              type="text"
-              required
-              placeholder="Copy product title from the store (e.g., 'CDA Pool League Hoodie')"
-            />
-            <p class="hint">
-              Tip: highlight + copy the exact title from the store section
-              above.
-            </p>
-          </div>
-
-          <div>
-            <label for="item_1_size">Item 1 – Size</label>
-            <input
-              id="item_1_size"
-              name="item_1_size"
-              type="text"
-              placeholder="M, L, XL, etc."
-            />
-          </div>
-
-          <div>
-            <label for="item_1_color">Item 1 – Color</label>
-            <input
-              id="item_1_color"
-              name="item_1_color"
-              type="text"
-              placeholder="Black, White, etc."
-            />
-          </div>
-
-          <div>
-            <label for="item_1_qty">Item 1 – Quantity</label>
-            <input
-              id="item_1_qty"
-              name="item_1_quantity"
-              type="number"
-              min="1"
-              value="1"
-            />
-          </div>
-
-          <div>
-            <label for="item_1_notes">Item 1 – Notes</label>
-            <input
-              id="item_1_notes"
-              name="item_1_notes"
-              type="text"
-              placeholder="Any print notes (back print, name, etc.)"
-            />
-          </div>
-
-          <!-- Optional second item -->
-          <div class="full-span">
-            <label for="item_2">Item 2 (optional) – Product name</label>
-            <input
-              id="item_2"
-              name="item_2_name"
-              type="text"
-              placeholder="Second item title from the store"
-            />
-          </div>
-
-          <div>
-            <label for="item_2_size">Item 2 – Size</label>
-            <input
-              id="item_2_size"
-              name="item_2_size"
-              type="text"
-              placeholder="M, L, XL, etc."
-            />
-          </div>
-
-          <div>
-            <label for="item_2_color">Item 2 – Color</label>
-            <input
-              id="item_2_color"
-              name="item_2_color"
-              type="text"
-              placeholder="Black, White, etc."
-            />
-          </div>
-
-          <div>
-            <label for="item_2_qty">Item 2 – Quantity</label>
-            <input
-              id="item_2_qty"
-              name="item_2_quantity"
-              type="number"
-              min="1"
-              value="1"
-            />
-          </div>
-
-          <div>
-            <label for="item_2_notes">Item 2 – Notes</label>
-            <input
-              id="item_2_notes"
-              name="item_2_notes"
-              type="text"
-              placeholder="Any print notes for this item"
-            />
-          </div>
-
-          <!-- Shipping + misc -->
-          <div class="full-span">
-            <label for="shipping_address">Shipping city / country</label>
-            <input
-              id="shipping_address"
-              name="shipping_region"
-              type="text"
-              placeholder="Example: Coeur d'Alene, ID · USA"
-            />
-            <p class="hint">
-              We'll confirm full shipping address and cost when we reply.
-            </p>
-          </div>
-
-          <div class="full-span">
-            <label for="extra_notes">Anything else we should know?</label>
-            <textarea
-              id="extra_notes"
-              name="extra_notes"
-              placeholder="Deadlines (league start, birthday), gift notes, or anything special."
-            ></textarea>
-          </div>
-
-          <!-- Hidden + anti-spam -->
-          <input
-            type="hidden"
-            name="_subject"
-            value="New Corner Pocket merch order request (Printful)"
-          />
-          <input
-            type="hidden"
-            name="source_page"
-            value="https://aerovista-us.github.io/cornerpocket/"
-          />
-
-          <div style="display: none;">
-            <label>Leave this field empty</label>
-            <input name="_gotcha" type="text" />
-          </div>
-
-          <!-- Footer row -->
-          <div class="full-span footer-row">
-            <div>
-              We'll review your request, confirm totals and shipping, then send
-              you a Square payment link before fulfilling via Printful.
+          <div id="cart-summary" class="cart-summary" style="display: none;">
+            <div class="cart-summary-row">
+              <span class="cart-summary-label">Subtotal:</span>
+              <span class="cart-summary-value" id="cart-subtotal">$0.00</span>
             </div>
-            <button class="btn-primary" type="submit" id="submit-btn">
-              <span class="icon">➤</span>
-              <span>Submit Order Request</span>
-            </button>
+            <div class="cart-summary-row total">
+              <span class="cart-summary-label">Total:</span>
+              <span class="cart-summary-value" id="cart-total">$0.00</span>
+            </div>
+            <div style="margin-top: 16px;">
+              <button class="btn-primary" id="proceed-to-checkout" style="width: 100%;">
+                <span class="icon">➤</span>
+                <span>Proceed to Checkout</span>
+              </button>
+            </div>
           </div>
-        </form>
+        </div>
+
+        <!-- Checkout View -->
+        <div id="checkout-view" class="view-section">
+          <form
+            id="order-form"
+            action="https://formspree.io/f/xzzoepbk"
+            method="POST"
+            data-formspree-id="xzzoepbk"
+          >
+            <!-- Contact info -->
+            <div class="full-span">
+              <label for="name">Your name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                placeholder="What should we call you?"
+              />
+            </div>
+
+            <div>
+              <label for="email">Email</label>
+              <input
+                id="email"
+                name="_replyto"
+                type="email"
+                required
+                placeholder="you@example.com"
+              />
+              <p class="hint">
+                We'll use this to confirm your order and send payment details.
+              </p>
+            </div>
+
+            <div>
+              <label for="phone">Phone (optional)</label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="If you prefer text updates"
+              />
+            </div>
+
+            <!-- Cart items will be auto-populated here -->
+            <div id="checkout-items" class="full-span"></div>
+
+            <!-- Shipping + misc -->
+            <div class="full-span">
+              <label for="shipping_address">Shipping city / country</label>
+              <input
+                id="shipping_address"
+                name="shipping_region"
+                type="text"
+                placeholder="Example: Coeur d'Alene, ID · USA"
+              />
+              <p class="hint">
+                We'll confirm full shipping address and cost when we reply.
+              </p>
+            </div>
+
+            <div class="full-span">
+              <label for="extra_notes">Anything else we should know?</label>
+              <textarea
+                id="extra_notes"
+                name="extra_notes"
+                placeholder="Deadlines (league start, birthday), gift notes, or anything special."
+              ></textarea>
+            </div>
+
+            <!-- Hidden + anti-spam -->
+            <input
+              type="hidden"
+              name="_subject"
+              value="New Corner Pocket merch order request (Printful)"
+            />
+            <input
+              type="hidden"
+              name="source_page"
+              value="https://aerovista-us.github.io/cornerpocket/"
+            />
+
+            <div style="display: none;">
+              <label>Leave this field empty</label>
+              <input name="_gotcha" type="text" />
+            </div>
+
+            <!-- Footer row -->
+            <div class="full-span footer-row">
+              <button type="button" class="btn-secondary" id="back-to-cart">
+                ← Back to Cart
+              </button>
+              <button class="btn-primary" type="submit" id="submit-btn">
+                <span class="icon">➤</span>
+                <span>Submit Order Request</span>
+              </button>
+            </div>
+          </form>
+        </div>
 
         <div class="brand-footer">
           CDA Pool Leagues · Corner Pocket Store · Fulfilled via Printful ·
@@ -641,45 +864,295 @@
   </div>
 
   <script>
-    // Pre-populate form from URL parameters (when coming from Buy Now button)
-    (function () {
+    // Cart management
+    const CART_STORAGE_KEY = 'cornerpocket_cart';
+    let cart = [];
+    let products = [];
+
+    // Load products from products.json
+    async function loadProducts() {
+      try {
+        const productsPath = new URL('../products.json', window.location.href).href;
+        const response = await fetch(productsPath);
+        if (response.ok) {
+          const data = await response.json();
+          products = data.products || [];
+        }
+      } catch (error) {
+        console.error('Error loading products:', error);
+      }
+    }
+
+    // Cart functions
+    function getCart() {
+      try {
+        const stored = localStorage.getItem(CART_STORAGE_KEY);
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveCart() {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+      updateCartUI();
+    }
+
+    function addToCart(productId, size = '', color = '', quantity = 1, notes = '') {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+
+      const cartItem = {
+        id: Date.now() + Math.random(), // Unique ID for cart item
+        productId: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.images && product.images.length > 0 ? product.images[0] : null,
+        size: size,
+        color: color,
+        quantity: quantity,
+        notes: notes
+      };
+
+      cart.push(cartItem);
+      saveCart();
+    }
+
+    function removeFromCart(cartItemId) {
+      cart = cart.filter(item => item.id !== cartItemId);
+      saveCart();
+    }
+
+    function updateCartItemQuantity(cartItemId, newQuantity) {
+      const item = cart.find(item => item.id === cartItemId);
+      if (item) {
+        if (newQuantity <= 0) {
+          removeFromCart(cartItemId);
+        } else {
+          item.quantity = newQuantity;
+          saveCart();
+        }
+      }
+    }
+
+    function calculateTotal() {
+      return cart.reduce((total, item) => {
+        const price = parseFloat(item.price.replace('$', '')) || 0;
+        return total + (price * item.quantity);
+      }, 0);
+    }
+
+    function formatPrice(amount) {
+      return `$${amount.toFixed(2)}`;
+    }
+
+    // UI Updates
+    function updateCartUI() {
+      const cartCount = cart.length;
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      
+      // Update cart count badges
+      document.getElementById('cart-count').textContent = totalItems;
+      document.getElementById('cart-count-header').textContent = totalItems;
+      const cartBadge = document.getElementById('cart-count-badge');
+      if (totalItems > 0) {
+        cartBadge.style.display = 'inline-flex';
+      } else {
+        cartBadge.style.display = 'none';
+      }
+
+      // Show/hide empty state
+      const cartEmpty = document.getElementById('cart-empty');
+      const cartItems = document.getElementById('cart-items');
+      const cartSummary = document.getElementById('cart-summary');
+
+      if (cart.length === 0) {
+        cartEmpty.style.display = 'block';
+        cartItems.innerHTML = '';
+        cartSummary.style.display = 'none';
+        document.getElementById('checkout-view-btn').disabled = true;
+      } else {
+        cartEmpty.style.display = 'none';
+        cartSummary.style.display = 'block';
+        document.getElementById('checkout-view-btn').disabled = false;
+        renderCartItems();
+        updateCartSummary();
+      }
+    }
+
+    function renderCartItems() {
+      const cartItems = document.getElementById('cart-items');
+      cartItems.innerHTML = cart.map(item => {
+        const imageHtml = item.image 
+          ? `<img src="../${item.image}" alt="${item.title}" onerror="this.parentElement.innerHTML='🎱';" />`
+          : '🎱';
+        
+        return `
+          <div class="cart-item" data-cart-id="${item.id}">
+            <div class="cart-item-image">
+              ${imageHtml}
+            </div>
+            <div class="cart-item-details">
+              <div class="cart-item-title">${item.title}</div>
+              <div class="cart-item-price">${item.price} each</div>
+              <div class="cart-item-options">
+                ${item.size ? `<span>📏 Size: ${item.size}</span>` : ''}
+                ${item.color ? `<span>🎨 Color: ${item.color}</span>` : ''}
+                ${item.notes ? `<span>📝 ${item.notes}</span>` : ''}
+              </div>
+            </div>
+            <div class="cart-item-actions">
+              <div class="qty-controls">
+                <button class="qty-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">−</button>
+                <span class="qty-value">${item.quantity}</span>
+                <button class="qty-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+              </div>
+              <button class="remove-btn" onclick="removeItem(${item.id})">Remove</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateCartSummary() {
+      const subtotal = calculateTotal();
+      document.getElementById('cart-subtotal').textContent = formatPrice(subtotal);
+      document.getElementById('cart-total').textContent = formatPrice(subtotal);
+    }
+
+    function populateCheckoutForm() {
+      const checkoutItems = document.getElementById('checkout-items');
+      checkoutItems.innerHTML = '';
+
+      cart.forEach((item, index) => {
+        const itemNum = index + 1;
+        const itemHtml = `
+          <div class="item-row">
+            <div class="item-row-header">
+              <div class="item-row-title">Item ${itemNum} – ${item.title}</div>
+              <div class="item-row-price">${item.price} × ${item.quantity}</div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div>
+                <label for="item_${itemNum}_size">Size</label>
+                <input
+                  id="item_${itemNum}_size"
+                  name="item_${itemNum}_size"
+                  type="text"
+                  value="${item.size || ''}"
+                  placeholder="M, L, XL, etc."
+                />
+              </div>
+              <div>
+                <label for="item_${itemNum}_color">Color</label>
+                <input
+                  id="item_${itemNum}_color"
+                  name="item_${itemNum}_color"
+                  type="text"
+                  value="${item.color || ''}"
+                  placeholder="Black, White, etc."
+                />
+              </div>
+              <div>
+                <label for="item_${itemNum}_qty">Quantity</label>
+                <input
+                  id="item_${itemNum}_qty"
+                  name="item_${itemNum}_quantity"
+                  type="number"
+                  min="1"
+                  value="${item.quantity}"
+                />
+              </div>
+              <div>
+                <label for="item_${itemNum}_notes">Notes</label>
+                <input
+                  id="item_${itemNum}_notes"
+                  name="item_${itemNum}_notes"
+                  type="text"
+                  value="${item.notes || ''}"
+                  placeholder="Any print notes"
+                />
+              </div>
+            </div>
+            <input type="hidden" name="item_${itemNum}_name" value="${item.title}" />
+            <input type="hidden" name="item_${itemNum}_price" value="${item.price}" />
+          </div>
+        `;
+        checkoutItems.innerHTML += itemHtml;
+      });
+    }
+
+    // Global functions for cart actions
+    window.updateQuantity = function(cartItemId, newQuantity) {
+      updateCartItemQuantity(cartItemId, newQuantity);
+    };
+
+    window.removeItem = function(cartItemId) {
+      if (confirm('Remove this item from cart?')) {
+        removeFromCart(cartItemId);
+      }
+    };
+
+    // View switching
+    function switchView(viewName) {
+      document.querySelectorAll('.view-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      if (viewName === 'cart') {
+        document.getElementById('cart-view').classList.add('active');
+        document.getElementById('cart-view-btn').classList.add('active');
+      } else if (viewName === 'checkout') {
+        if (cart.length === 0) {
+          alert('Your cart is empty. Add items before checkout.');
+          return;
+        }
+        populateCheckoutForm();
+        document.getElementById('checkout-view').classList.add('active');
+        document.getElementById('checkout-view-btn').classList.add('active');
+      }
+    }
+
+    // Event listeners
+    document.getElementById('cart-view-btn').addEventListener('click', () => switchView('cart'));
+    document.getElementById('checkout-view-btn').addEventListener('click', () => switchView('checkout'));
+    document.getElementById('proceed-to-checkout').addEventListener('click', () => switchView('checkout'));
+    document.getElementById('back-to-cart').addEventListener('click', () => switchView('cart'));
+
+    // Pre-populate from URL parameters (when coming from Buy Now button)
+    (async function () {
+      await loadProducts();
+      cart = getCart();
+
       const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get('product_id');
       const productName = urlParams.get('product_name');
       const productPrice = urlParams.get('product_price');
 
-      if (productName) {
-        const item1NameInput = document.getElementById('item_1');
-        if (item1NameInput) {
-          item1NameInput.value = productName;
-
-          // Visual indicator
-          item1NameInput.style.borderColor = 'var(--pool-gold)';
-          item1NameInput.style.boxShadow =
-            '0 0 0 2px rgba(218, 165, 32, 0.3), 0 0 15px rgba(218, 165, 32, 0.2)';
-
-          if (productPrice) {
-            const hint = item1NameInput.nextElementSibling;
-            if (hint && hint.classList.contains('hint')) {
-              hint.textContent = `Pre-filled from store • Price: ${productPrice}`;
-              hint.style.color = 'var(--pool-gold)';
-            } else {
-              const newHint = document.createElement('p');
-              newHint.className = 'hint';
-              newHint.textContent = `Pre-filled from store • Price: ${productPrice}`;
-              newHint.style.color = 'var(--pool-gold)';
-              item1NameInput.parentNode.insertBefore(
-                newHint,
-                item1NameInput.nextSibling
-              );
-            }
-          }
+      if (productId && products.length > 0) {
+        const product = products.find(p => p.id === parseInt(productId));
+        if (product) {
+          addToCart(product.id);
+          switchView('cart');
+        }
+      } else if (productName) {
+        // Fallback: if product ID not found, try to find by name
+        const product = products.find(p => p.title === productName);
+        if (product) {
+          addToCart(product.id);
+          switchView('cart');
         }
       }
+
+      updateCartUI();
     })();
 
     // Formspree form handling
     (function () {
-      const FORM_ID = 'xzzoepbk'; // your configured Formspree ID
+      const FORM_ID = 'xzzoepbk';
 
       const form = document.getElementById('order-form');
       const messageDiv = document.getElementById('form-message');
@@ -687,7 +1160,6 @@
 
       if (!form) return;
 
-      // Just a minimal safety check now; it's already configured
       if (!FORM_ID) {
         messageDiv.className = 'form-message error';
         messageDiv.innerHTML =
@@ -700,6 +1172,13 @@
 
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
+
+        if (cart.length === 0) {
+          messageDiv.className = 'form-message error';
+          messageDiv.textContent = '❌ Your cart is empty. Please add items before submitting.';
+          messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          return;
+        }
 
         // Loading state
         messageDiv.className = 'form-message loading';
@@ -723,6 +1202,10 @@
             messageDiv.textContent =
               "✅ Order request submitted successfully! We'll review your request and send you a payment link soon.";
             form.reset();
+            // Clear cart after successful submission
+            cart = [];
+            saveCart();
+            switchView('cart');
             messageDiv.scrollIntoView({
               behavior: 'smooth',
               block: 'nearest',
