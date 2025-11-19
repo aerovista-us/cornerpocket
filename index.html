@@ -2173,7 +2173,9 @@
     // Load products from JSON file
     async function loadProducts() {
       try {
-        const response = await fetch('products.json');
+        // Use path relative to current page location
+        const productsPath = new URL('products.json', window.location.href).href;
+        const response = await fetch(productsPath);
         if (!response.ok) {
           throw new Error(`Failed to load products: ${response.status} ${response.statusText}`);
         }

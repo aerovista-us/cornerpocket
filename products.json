@@ -1,0 +1,141 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "CDA Pool League T-Shirt (Black)",
+      "description": "Official CDA Pool League organic cotton t-shirt with premium print",
+      "price": "$24.99",
+      "images": [
+        "mockups/unisex-organic-cotton-t-shirt-black-front-6916fcb16217f.png",
+        "mockups/unisex-organic-cotton-t-shirt-black-front-6916fcb160976.png",
+        "mockups/unisex-organic-cotton-t-shirt-black-right-front-6916fcb15fd50.png",
+        "mockups/unisex-organic-cotton-t-shirt-black-left-front-6916fcb16039c.png"
+      ],
+      "features": [
+        "100% Organic Cotton",
+        "Premium print quality",
+        "Available in multiple sizes",
+        "Machine washable",
+        "Comfortable fit"
+      ],
+      "paymentLink": "#",
+      "squareLinkId": "",
+      "squareProductId": "NPJVD4DJREI415HD5LSKUHI7",
+      "notes": "Map to CDA Pool League Circuit Tee in Square"
+    },
+    {
+      "id": 2,
+      "title": "CDA Pool League T-Shirt (White)",
+      "description": "Official CDA Pool League staple t-shirt with vibrant print",
+      "price": "$24.99",
+      "images": [
+        "mockups/unisex-staple-t-shirt-solid-white-blend-front-691701dded140.png",
+        "mockups/unisex-staple-t-shirt-solid-white-blend-front-2-691701ddf1d81.png",
+        "mockups/unisex-staple-t-shirt-solid-white-blend-right-front-691701ddee55e.png",
+        "mockups/unisex-staple-t-shirt-solid-white-blend-left-front-691701ddedfbc.png"
+      ],
+      "features": [
+        "100% Cotton",
+        "Vibrant print design",
+        "Available in multiple sizes",
+        "Machine washable",
+        "Classic fit"
+      ],
+      "paymentLink": "#",
+      "squareLinkId": "",
+      "squareProductId": "DB6Z7HLMD4VQN32BEQASZRZ4",
+      "notes": "Map to Powder Peaks 8-Ball Tee in Square"
+    },
+    {
+      "id": 3,
+      "title": "CDA Pool League Hoodie",
+      "description": "Premium pullover hoodie perfect for league nights and casual wear",
+      "price": "$49.99",
+      "images": [
+        "mockups/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6916ff00a8198.png",
+        "mockups/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6916ff00a7cb9.png",
+        "mockups/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-right-front-6916ff00a7356.png",
+        "mockups/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-back-6916ff29bc24d.png"
+      ],
+      "features": [
+        "Premium cotton heritage blend",
+        "Kangaroo pocket",
+        "Drawstring hood",
+        "CDA Pool League embroidery",
+        "Available in multiple sizes"
+      ],
+      "paymentLink": "#",
+      "squareLinkId": "",
+      "squareProductId": "WTT4DMOVUXULJ5D6IF4PKRU6",
+      "notes": "Map to Powder Peaks 8-Ball Hoodie in Square"
+    },
+    {
+      "id": 4,
+      "title": "CDA Pool League Stickers (3x3)",
+      "description": "Kiss-cut vinyl stickers perfect for cues, cases, and gear",
+      "price": "$12.99",
+      "images": [
+        "mockups/kiss-cut-stickers-white-3x3-front-6916ffe8ec227.png",
+        "mockups/kiss-cut-stickers-white-3x3-front-6916ffe8eb8bf.png",
+        "mockups/kiss-cut-stickers-white-3x3-default-6916ffe8eaf1a.png"
+      ],
+      "features": [
+        "3x3 inch size",
+        "Kiss-cut vinyl",
+        "Waterproof and durable",
+        "Set of multiple designs",
+        "Perfect for gear customization"
+      ],
+      "paymentLink": "#",
+      "squareLinkId": "",
+      "squareProductId": "JXBVVJZUKZ7LQQCH4SWJA5H2",
+      "notes": "Map to Powder Peaks 8-Ball Sticker in Square"
+    },
+    {
+      "id": 5,
+      "title": "CDA Pool League Stickers (5.5x5.5)",
+      "description": "Large format kiss-cut vinyl stickers for maximum visibility",
+      "price": "$15.99",
+      "images": [
+        "mockups/kiss-cut-stickers-white-5.5x5.5-front-6916ffe8ebda5.png",
+        "mockups/kiss-cut-stickers-white-5.5x5.5-default-6916ffe8eb437.png"
+      ],
+      "features": [
+        "5.5x5.5 inch size",
+        "Kiss-cut vinyl",
+        "Waterproof and durable",
+        "Set of multiple designs",
+        "Great for walls and large surfaces"
+      ],
+      "paymentLink": "#",
+      "squareLinkId": "",
+      "squareProductId": "JXBVVJZUKZ7LQQCH4SWJA5H2",
+      "notes": "May share same Square product as 3x3 stickers - verify in Square dashboard"
+    },
+    {
+      "id": 6,
+      "title": "CDA Pool League Long Sleeve Tee (White)",
+      "description": "Premium long sleeve t-shirt perfect for cooler league nights",
+      "price": "$29.99",
+      "images": [
+        "mockups/unisex-long-sleeve-tee-white-front-6917046caf8cb.png",
+        "mockups/unisex-long-sleeve-tee-white-front-2-6917046cafeb8.png",
+        "mockups/unisex-long-sleeve-tee-white-front-6917046cb0384.png",
+        "mockups/unisex-long-sleeve-tee-white-left-front-6917046cb0842.png"
+      ],
+      "features": [
+        "100% Cotton",
+        "Long sleeve design",
+        "Premium print quality",
+        "Available in multiple sizes",
+        "Machine washable",
+        "Comfortable fit"
+      ],
+      "paymentLink": "#",
+      "squareLinkId": "",
+      "squareProductId": "",
+      "notes": "May need to create new Square product or map to existing tee product"
+    }
+  ]
+}
+
