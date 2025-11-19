@@ -1202,6 +1202,7 @@
       
       // Log for debugging
       console.log('Loading track:', track.title, 'Path:', track.file, 'Full URL:', audioPath);
+      console.log('Track index:', index, 'Current track index:', currentTrackIndex, 'Track object:', track);
       
       // Verify file exists (if possible)
       const fileExists = await verifyAudioFile(audioPath);
@@ -1323,16 +1324,20 @@
     // Attach event listeners to playlist items
     function attachPlaylistEventListeners() {
       // Playlist item clicks - always switch and play
-      playlistItems.forEach((item, index) => {
+      playlistItems.forEach((item) => {
         // Remove existing listeners by cloning
         const newItem = item.cloneNode(true);
         item.parentNode.replaceChild(newItem, item);
+        
+        // Get track index from data-track attribute (important after drag-and-drop reordering)
+        const trackIndex = parseInt(newItem.dataset.track);
+        if (isNaN(trackIndex)) return; // Skip if no valid track index
         
         newItem.addEventListener('click', async (e) => {
           // Don't trigger click if dragging
           if (newItem.classList.contains('dragging')) return;
           
-          loadTrack(index);
+          loadTrack(trackIndex);
           // Always start playing when clicking a playlist item
           audio.addEventListener('canplay', async () => {
             try {
