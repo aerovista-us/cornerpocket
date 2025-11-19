@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Righteous&display=swap"
     rel="stylesheet"
   />
   <style>
@@ -34,11 +34,11 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Oswald', 'Arial Narrow', 'Arial', system-ui;
       font-weight: 400;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      letter-spacing: -0.01em;
+      letter-spacing: 0.02em;
       background:
         radial-gradient(
           ellipse at top left,
@@ -138,9 +138,9 @@
       margin-bottom: 12px;
       font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       color: var(--text-muted);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Oswald', system-ui;
       font-weight: 500;
     }
 
@@ -164,8 +164,8 @@
     }
 
     h1 {
-      font-family: 'Space Grotesk', 'Inter', sans-serif;
-      font-size: 2.25rem;
+      font-family: 'Bebas Neue', 'Righteous', 'Oswald', system-ui;
+      font-size: 2.5rem;
       margin: 8px 0 12px;
       display: flex;
       flex-wrap: wrap;
@@ -180,8 +180,10 @@
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
+      letter-spacing: 0.05em;
+      line-height: 1.1;
+      font-weight: 400;
+      text-transform: uppercase;
     }
 
     h1 span.main {
@@ -209,8 +211,9 @@
       font-size: 0.8rem;
       color: var(--text-muted);
       margin-bottom: 12px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Oswald', system-ui;
       font-weight: 500;
+      letter-spacing: 0.05em;
     }
 
     .pill {
@@ -218,7 +221,7 @@
       border-radius: 999px;
       background: rgba(45, 134, 89, 0.1);
       border: 1px solid var(--border);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Oswald', system-ui;
     }
 
     /* View switcher */
@@ -239,8 +242,9 @@
       cursor: pointer;
       font-size: 0.9rem;
       font-weight: 600;
-      font-family: 'Inter', sans-serif;
-      letter-spacing: 0.01em;
+      font-family: 'Oswald', system-ui;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
       transition: all 0.3s ease;
     }
 
@@ -268,7 +272,7 @@
       text-align: center;
       padding: 3rem 1rem;
       color: var(--text-muted);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Oswald', system-ui;
     }
 
     .cart-empty-icon {
@@ -326,8 +330,9 @@
       color: var(--pool-gold);
       margin-bottom: 4px;
       font-size: 1rem;
-      font-family: 'Inter', sans-serif;
-      letter-spacing: -0.01em;
+      font-family: 'Oswald', system-ui;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
 
     .cart-item-price {
@@ -342,12 +347,57 @@
       flex-wrap: wrap;
       font-size: 0.85rem;
       color: var(--text-muted);
+      margin-top: 8px;
     }
 
     .cart-item-options span {
       display: flex;
       align-items: center;
       gap: 4px;
+    }
+
+    .cart-item-options select {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--pool-brown);
+      background: rgba(10, 15, 10, 0.8);
+      color: var(--text);
+      font-family: 'Oswald', system-ui;
+      font-size: 0.85rem;
+      cursor: pointer;
+      min-width: 100px;
+    }
+
+    .cart-item-options select:focus {
+      border-color: var(--pool-gold);
+      outline: none;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: 2px solid var(--pool-brown);
+      background: transparent;
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'Bebas Neue', 'Oswald', system-ui;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(139, 69, 19, 0.2);
+      border-color: var(--pool-gold);
+      color: var(--pool-gold);
+      transform: translateY(-2px);
     }
 
     .cart-item-actions {
@@ -376,11 +426,13 @@
       border-radius: 4px;
       cursor: pointer;
       font-weight: 700;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Bebas Neue', 'Oswald', system-ui;
+      font-size: 1.2rem;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s ease;
+      letter-spacing: 0;
     }
 
     .qty-btn:hover {
@@ -393,7 +445,8 @@
       text-align: center;
       font-weight: 600;
       color: var(--text);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Oswald', system-ui;
+      letter-spacing: 0.05em;
     }
 
     .remove-btn {
@@ -404,8 +457,10 @@
       border-radius: 6px;
       cursor: pointer;
       font-size: 0.85rem;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Oswald', system-ui;
       font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
       transition: all 0.2s ease;
     }
 
@@ -432,28 +487,32 @@
       justify-content: space-between;
       margin-bottom: 12px;
       font-size: 1rem;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Oswald', system-ui;
+      letter-spacing: 0.03em;
     }
 
     .cart-summary-row.total {
-      font-size: 1.35rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: var(--pool-gold);
       padding-top: 12px;
       border-top: 2px solid var(--border);
       margin-top: 12px;
-      letter-spacing: -0.01em;
+      letter-spacing: 0.05em;
+      font-family: 'Bebas Neue', 'Oswald', system-ui;
+      text-transform: uppercase;
     }
 
     .cart-summary-label {
       color: var(--text-muted);
       font-weight: 500;
+      text-transform: uppercase;
     }
 
     .cart-summary-value {
       color: var(--text);
       font-weight: 600;
-      letter-spacing: -0.01em;
+      letter-spacing: 0.05em;
     }
 
     /* Form view */
@@ -495,10 +554,10 @@
       margin-bottom: 6px;
       font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       color: var(--pool-gold);
       font-weight: 600;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Oswald', system-ui;
     }
 
     input,
@@ -515,9 +574,9 @@
       );
       color: var(--text);
       font-size: 0.95rem;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Oswald', system-ui;
       font-weight: 400;
-      letter-spacing: -0.01em;
+      letter-spacing: 0.02em;
       outline: none;
       transition: all 0.3s ease;
     }
@@ -552,8 +611,9 @@
       font-size: 0.75rem;
       color: var(--text-muted);
       line-height: 1.4;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Oswald', system-ui;
       font-weight: 400;
+      letter-spacing: 0.02em;
     }
 
     .footer-row {
@@ -581,10 +641,11 @@
         var(--pool-green-dark)
       );
       color: var(--pool-gold);
-      font-size: 0.95rem;
+      font-size: 1rem;
       font-weight: 600;
-      font-family: 'Inter', sans-serif;
-      letter-spacing: 0.01em;
+      font-family: 'Bebas Neue', 'Oswald', system-ui;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       cursor: pointer;
       transition: all 0.3s ease;
       box-shadow:
@@ -663,9 +724,10 @@
       margin-bottom: 20px;
       border: 2px solid;
       display: none;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Oswald', system-ui;
       font-weight: 500;
-      letter-spacing: -0.01em;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
 
     .form-message.success {
@@ -711,9 +773,10 @@
     .item-row-title {
       font-weight: 600;
       color: var(--pool-gold);
-      font-size: 1.05rem;
-      font-family: 'Inter', sans-serif;
-      letter-spacing: -0.01em;
+      font-size: 1.1rem;
+      font-family: 'Bebas Neue', 'Oswald', system-ui;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
     .item-row-price {
@@ -747,8 +810,6 @@
             and fulfill through Printful.
           </p>
           <div class="pill-row">
-            <span class="pill">🎱 Hoodies, tees, hats, stickers</span>
-            <span class="pill">📦 Printful on-demand shipping</span>
             <span class="pill" id="cart-count-badge" style="display: none;">🛒 <span id="cart-count">0</span> items</span>
           </div>
         </header>
@@ -790,8 +851,11 @@
               <span class="cart-summary-label">Total:</span>
               <span class="cart-summary-value" id="cart-total">$0.00</span>
             </div>
-            <div style="margin-top: 16px;">
-              <button class="btn-primary" id="proceed-to-checkout" style="width: 100%;">
+            <div style="margin-top: 16px; display: flex; gap: 12px;">
+              <a href="../index.html#storeBtn" class="btn-secondary" style="flex: 1; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+                <span>← Return to Shopping</span>
+              </a>
+              <button class="btn-primary" id="proceed-to-checkout" style="flex: 1;">
                 <span class="icon">➤</span>
                 <span>Proceed to Checkout</span>
               </button>
@@ -1024,12 +1088,76 @@
       }
     }
 
+    function getAvailableSizes(productTitle) {
+      // Stickers don't need sizes
+      if (productTitle.toLowerCase().includes('sticker')) {
+        return [];
+      }
+      // Standard sizes for apparel
+      return ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
+    }
+
+    function getAvailableColors(productTitle) {
+      const title = productTitle.toLowerCase();
+      const colors = [];
+      
+      if (title.includes('black')) {
+        colors.push('Black');
+      }
+      if (title.includes('white')) {
+        colors.push('White');
+      }
+      // If no specific color in title, offer common options
+      if (colors.length === 0 && !title.includes('sticker')) {
+        colors.push('Black', 'White', 'Navy', 'Gray');
+      }
+      
+      return colors.length > 0 ? colors : [];
+    }
+
+    function updateCartItemSize(cartItemId, newSize) {
+      const item = cart.find(item => item.id === cartItemId);
+      if (item) {
+        item.size = newSize;
+        saveCart();
+      }
+    }
+
+    function updateCartItemColor(cartItemId, newColor) {
+      const item = cart.find(item => item.id === cartItemId);
+      if (item) {
+        item.color = newColor;
+        saveCart();
+      }
+    }
+
     function renderCartItems() {
       const cartItems = document.getElementById('cart-items');
       cartItems.innerHTML = cart.map(item => {
         const imageHtml = item.image 
           ? `<img src="../${item.image}" alt="${item.title}" onerror="this.parentElement.innerHTML='🎱';" />`
           : '🎱';
+        
+        const availableSizes = getAvailableSizes(item.title);
+        const availableColors = getAvailableColors(item.title);
+        
+        const sizeDropdown = availableSizes.length > 0 ? `
+          <select onchange="updateCartItemSize(${item.id}, this.value)" style="margin-right: 8px;">
+            <option value="">Select Size</option>
+            ${availableSizes.map(size => 
+              `<option value="${size}" ${item.size === size ? 'selected' : ''}>${size}</option>`
+            ).join('')}
+          </select>
+        ` : '';
+        
+        const colorDropdown = availableColors.length > 0 ? `
+          <select onchange="updateCartItemColor(${item.id}, this.value)">
+            <option value="">Select Color</option>
+            ${availableColors.map(color => 
+              `<option value="${color}" ${item.color === color ? 'selected' : ''}>${color}</option>`
+            ).join('')}
+          </select>
+        ` : '';
         
         return `
           <div class="cart-item" data-cart-id="${item.id}">
@@ -1040,8 +1168,8 @@
               <div class="cart-item-title">${item.title}</div>
               <div class="cart-item-price">${item.price} each</div>
               <div class="cart-item-options">
-                ${item.size ? `<span>📏 Size: ${item.size}</span>` : ''}
-                ${item.color ? `<span>🎨 Color: ${item.color}</span>` : ''}
+                ${sizeDropdown}
+                ${colorDropdown}
                 ${item.notes ? `<span>📝 ${item.notes}</span>` : ''}
               </div>
             </div>
@@ -1135,6 +1263,14 @@
       if (confirm('Remove this item from cart?')) {
         removeFromCart(cartItemId);
       }
+    };
+
+    window.updateCartItemSize = function(cartItemId, newSize) {
+      updateCartItemSize(cartItemId, newSize);
+    };
+
+    window.updateCartItemColor = function(cartItemId, newColor) {
+      updateCartItemColor(cartItemId, newColor);
     };
 
     // View switching
