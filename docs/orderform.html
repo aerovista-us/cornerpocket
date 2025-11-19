@@ -8,6 +8,12 @@
     rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎱</text></svg>"
   />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
   <style>
     :root {
       --pool-green: #2d8659;
@@ -28,7 +34,11 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      letter-spacing: -0.01em;
       background:
         radial-gradient(
           ellipse at top left,
@@ -128,8 +138,10 @@
       margin-bottom: 12px;
       font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
     }
 
     .tiny-tag {
@@ -152,7 +164,8 @@
     }
 
     h1 {
-      font-size: 2rem;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: 2.25rem;
       margin: 8px 0 12px;
       display: flex;
       flex-wrap: wrap;
@@ -167,6 +180,8 @@
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
     }
 
     h1 span.main {
@@ -194,6 +209,8 @@
       font-size: 0.8rem;
       color: var(--text-muted);
       margin-bottom: 12px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
     }
 
     .pill {
@@ -201,6 +218,7 @@
       border-radius: 999px;
       background: rgba(45, 134, 89, 0.1);
       border: 1px solid var(--border);
+      font-family: 'Inter', sans-serif;
     }
 
     /* View switcher */
@@ -221,6 +239,8 @@
       cursor: pointer;
       font-size: 0.9rem;
       font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.01em;
       transition: all 0.3s ease;
     }
 
@@ -248,6 +268,7 @@
       text-align: center;
       padding: 3rem 1rem;
       color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
     }
 
     .cart-empty-icon {
@@ -301,10 +322,12 @@
     }
 
     .cart-item-title {
-      font-weight: 700;
+      font-weight: 600;
       color: var(--pool-gold);
       margin-bottom: 4px;
       font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: -0.01em;
     }
 
     .cart-item-price {
@@ -353,6 +376,7 @@
       border-radius: 4px;
       cursor: pointer;
       font-weight: 700;
+      font-family: 'Inter', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -369,6 +393,7 @@
       text-align: center;
       font-weight: 600;
       color: var(--text);
+      font-family: 'Inter', sans-serif;
     }
 
     .remove-btn {
@@ -379,6 +404,8 @@
       border-radius: 6px;
       cursor: pointer;
       font-size: 0.85rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
       transition: all 0.2s ease;
     }
 
@@ -405,24 +432,28 @@
       justify-content: space-between;
       margin-bottom: 12px;
       font-size: 1rem;
+      font-family: 'Inter', sans-serif;
     }
 
     .cart-summary-row.total {
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       font-weight: 700;
       color: var(--pool-gold);
       padding-top: 12px;
       border-top: 2px solid var(--border);
       margin-top: 12px;
+      letter-spacing: -0.01em;
     }
 
     .cart-summary-label {
       color: var(--text-muted);
+      font-weight: 500;
     }
 
     .cart-summary-value {
       color: var(--text);
       font-weight: 600;
+      letter-spacing: -0.01em;
     }
 
     /* Form view */
@@ -462,18 +493,19 @@
     label {
       display: block;
       margin-bottom: 6px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       color: var(--pool-gold);
       font-weight: 600;
+      font-family: 'Inter', sans-serif;
     }
 
     input,
     select,
     textarea {
       width: 100%;
-      padding: 10px 12px;
+      padding: 12px 14px;
       border-radius: 8px;
       border: 2px solid var(--pool-brown);
       background: linear-gradient(
@@ -483,6 +515,9 @@
       );
       color: var(--text);
       font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      letter-spacing: -0.01em;
       outline: none;
       transition: all 0.3s ease;
     }
@@ -517,6 +552,8 @@
       font-size: 0.75rem;
       color: var(--text-muted);
       line-height: 1.4;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
     }
 
     .footer-row {
@@ -544,8 +581,10 @@
         var(--pool-green-dark)
       );
       color: var(--pool-gold);
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.01em;
       cursor: pointer;
       transition: all 0.3s ease;
       box-shadow:
@@ -624,6 +663,9 @@
       margin-bottom: 20px;
       border: 2px solid;
       display: none;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      letter-spacing: -0.01em;
     }
 
     .form-message.success {
@@ -667,9 +709,11 @@
     }
 
     .item-row-title {
-      font-weight: 700;
+      font-weight: 600;
       color: var(--pool-gold);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: -0.01em;
     }
 
     .item-row-price {
