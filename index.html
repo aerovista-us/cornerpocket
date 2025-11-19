@@ -1159,8 +1159,19 @@
       }
     }
 
-    // Load track
-    function loadTrack(index, retryCount = 0) {
+    // Verify audio file exists before loading
+    async function verifyAudioFile(url) {
+      try {
+        const response = await fetch(url, { method: 'HEAD' });
+        return response.ok;
+      } catch (e) {
+        console.warn('Could not verify audio file:', url, e);
+        return true; // Assume it exists if we can't verify (CORS might block HEAD)
+      }
+    }
+
+    // Load track with improved error handling and retry logic
+    async function loadTrack(index, retryCount = 0) {
       currentTrackIndex = index;
       const track = tracks[index];
       const maxRetries = 3;
@@ -1188,6 +1199,82 @@
       
       // Use path relative to current page location for proper resolution
       const audioPath = new URL(track.file, window.location.href).href;
+      
+      // Log for debugging
+      console.log('Loading track:', track.title, 'Path:', track.file, 'Full URL:', audioPath);
+      
+      // Verify file exists (if possible)
+      const fileExists = await verifyAudioFile(audioPath);
+      if (!fileExists && retryCount === 0) {
+        console.warn('Audio file may not exist:', audioPath);
+      }
+      
+      // Set up error handler for this specific load attempt
+      const errorHandler = async (e) => {
+        loadingIndicator.style.display = 'none';
+        const error = audio.error;
+        
+        if (error && retryCount < maxRetries) {
+          console.warn(`Audio load failed (attempt ${retryCount + 1}/${maxRetries + 1}), retrying...`, {
+            errorCode: error.code,
+            networkState: audio.networkState,
+            readyState: audio.readyState
+          });
+          
+          // Retry after a short delay
+          setTimeout(() => {
+            audio.removeEventListener('error', errorHandler);
+            loadTrack(index, retryCount + 1);
+          }, 1000 * (retryCount + 1)); // Exponential backoff
+          return;
+        }
+        
+        // Max retries reached or no error object
+        audio.removeEventListener('error', errorHandler);
+        console.error('Audio error after retries:', e);
+        
+        if (error) {
+          let errorMsg = 'Error loading audio: ';
+          const fileName = track ? track.file : 'unknown';
+          
+          switch (error.code) {
+            case error.MEDIA_ERR_ABORTED:
+              errorMsg += 'Playback aborted';
+              break;
+            case error.MEDIA_ERR_NETWORK:
+              errorMsg += `Network error loading "${fileName}". Please check your connection and try again.`;
+              break;
+            case error.MEDIA_ERR_DECODE:
+              errorMsg += `Decoding error for "${fileName}". File may be corrupted.`;
+              break;
+            case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+              errorMsg += `Audio format not supported for "${fileName}".`;
+              break;
+            default:
+              errorMsg += `Unknown error loading "${fileName}"`;
+          }
+          
+          if (audio.networkState === audio.NETWORK_NO_SOURCE) {
+            errorMsg = `File not found: "${fileName}". The audio file may not be uploaded to the server.`;
+          }
+          
+          console.error('Full error details:', {
+            errorCode: error.code,
+            errorMessage: errorMsg,
+            currentTrack: track,
+            audioSrc: audio.src,
+            networkState: audio.networkState,
+            readyState: audio.readyState
+          });
+          
+          alert(errorMsg);
+        }
+      };
+      
+      // Add error handler for this load attempt
+      audio.addEventListener('error', errorHandler, { once: true });
+      
+      // Set source and load
       audio.src = audioPath;
       audio.load(); // Force reload
       
@@ -1196,9 +1283,6 @@
       playlistItems.forEach((item, i) => {
         item.classList.toggle('active', i === index);
       });
-      
-      // Log for debugging
-      console.log('Loading track:', track.title, 'Path:', track.file);
     }
 
     // Format time
@@ -1482,63 +1566,12 @@
       loadingIndicator.style.display = 'none';
     });
 
+    // Error handling is now done in loadTrack function with retry logic
+    // This is a fallback for any errors not caught by loadTrack
     audio.addEventListener('error', (e) => {
-      loadingIndicator.style.display = 'none';
-      console.error('Audio error:', e);
-      const error = audio.error;
-      if (error) {
-        let errorMsg = 'Error loading audio: ';
-        const currentTrack = tracks[currentTrackIndex];
-        const fileName = currentTrack ? currentTrack.file : 'unknown';
-        
-        switch (error.code) {
-          case error.MEDIA_ERR_ABORTED:
-            errorMsg += 'Playback aborted';
-            break;
-          case error.MEDIA_ERR_NETWORK:
-            errorMsg += `Network error loading "${fileName}". Please check your connection and try again.`;
-            console.error('Network error details:', {
-              file: fileName,
-              src: audio.src,
-              networkState: audio.networkState
-            });
-            break;
-          case error.MEDIA_ERR_DECODE:
-            errorMsg += `Decoding error for "${fileName}". File may be corrupted or in an unsupported format.`;
-            console.error('Decode error details:', {
-              file: fileName,
-              readyState: audio.readyState
-            });
-            break;
-          case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-            errorMsg += `Audio format not supported for "${fileName}". Please ensure the file is a valid MP3.`;
-            console.error('Format error details:', {
-              file: fileName,
-              src: audio.src,
-              canPlayType: audio.canPlayType('audio/mpeg')
-            });
-            break;
-          default:
-            errorMsg += `Unknown error loading "${fileName}"`;
-        }
-        
-        // Check if it's a 404 error
-        if (audio.networkState === audio.NETWORK_NO_SOURCE) {
-          errorMsg = `File not found: "${fileName}". The audio file may not be uploaded to the server.`;
-        }
-        
-        console.error('Full error details:', {
-          errorCode: error.code,
-          errorMessage: errorMsg,
-          currentTrack: currentTrack,
-          audioSrc: audio.src,
-          networkState: audio.networkState,
-          readyState: audio.readyState
-        });
-        
-        alert(errorMsg);
-      } else {
-        console.error('Audio error event but no error object available');
+      // Only log if error wasn't already handled by loadTrack
+      if (!audio.error || audio.error.code === 0) {
+        console.warn('Audio error event (may be handled by loadTrack):', e);
       }
     });
 
@@ -2323,14 +2356,20 @@
           product.squareLinkId.trim() !== '' &&
           !product.squareLinkId.startsWith('YOUR_CHECKOUT_ID_')) {
         buyBtn.href = `https://square.link/u/${product.squareLinkId}?utm_source=site&utm_campaign=pp8ball_launch`;
+        buyBtn.onclick = null; // Remove any previous onclick handler
       } else if (product.paymentLink && product.paymentLink !== '#') {
         buyBtn.href = product.paymentLink;
+        buyBtn.onclick = null; // Remove any previous onclick handler
       } else {
-        buyBtn.href = '#';
-        buyBtn.onclick = (e) => {
-          e.preventDefault();
-          alert('Payment link not configured. Please contact the store administrator.');
-        };
+        // Link to order form with product data as URL parameters
+        const orderFormPath = new URL('docs/orderform.html', window.location.href).href;
+        const params = new URLSearchParams({
+          product_name: product.title,
+          product_price: product.price,
+          product_id: product.id.toString()
+        });
+        buyBtn.href = `${orderFormPath}?${params.toString()}`;
+        buyBtn.onclick = null; // Remove any previous onclick handler
       }
       
       productModal.classList.add('active');

@@ -2,76 +2,110 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Corner Pocket | Call it Corner | EchoStory | EchoVerse | AeroVista LLC</title>
+  <title>Corner Pocket Merch Order | CDA Pool Leagues</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎱</text></svg>" />
   <style>
     :root {
-      --bg: #020617;
-      --card: #020617;
-      --accent: #38bdf8;
-      --accent-soft: #0f172a;
-      --text: #f9fafb;
-      --muted: #9ca3af;
-      --border: #1f2937;
-      --danger: #ef4444;
+      --pool-green: #2D8659;
+      --pool-green-dark: #1B5E3E;
+      --pool-brown: #8b4513;
+      --pool-gold: #daa520;
+      --bg-dark: #0a0f0a;
+      --bg-darker: #1a1f1a;
+      --text: #f8f8f2;
+      --text-muted: #aaa;
+      --border: rgba(139, 69, 19, 0.3);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #0b1120 0, #020617 45%, #000 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: 
+        radial-gradient(ellipse at top left, rgba(45, 134, 89, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(139, 69, 19, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at center, rgba(218, 165, 32, 0.05) 0%, transparent 70%),
+        linear-gradient(135deg, #0a0f0a 0%, #1a1f1a 25%, #0f0a0a 50%, #1a1f1a 75%, #0a0f0a 100%);
       color: var(--text);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px 12px;
+      padding: 2rem 1rem;
+      position: relative;
+    }
+
+    /* Pool felt texture */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.15) 0px,
+          transparent 1px,
+          transparent 2px,
+          rgba(0, 0, 0, 0.15) 3px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.08) 0px,
+          transparent 1px,
+          transparent 2px,
+          rgba(0, 0, 0, 0.08) 3px
+        );
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
 
     .shell {
-      max-width: 720px;
-      width: 100%;
-      background: linear-gradient(135deg, rgba(56,189,248,0.12), rgba(94,234,212,0.04));
-      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(45, 134, 89, 0.2), rgba(139, 69, 19, 0.2));
+      border: 3px solid var(--pool-brown);
+      border-radius: 16px;
       padding: 2px;
-      box-shadow:
-        0 24px 80px rgba(15,23,42,0.9),
-        0 0 0 1px rgba(15,23,42,1);
+      box-shadow: 
+        0 0 40px rgba(45, 134, 89, 0.3), 
+        inset 0 0 20px rgba(0, 0, 0, 0.3);
     }
 
     .card {
-      background: radial-gradient(circle at top left, #020617, #020617 40%, #020617 100%);
-      border-radius: 22px;
-      padding: 26px 22px 24px;
+      background: linear-gradient(135deg, rgba(10, 15, 10, 0.95), rgba(26, 31, 26, 0.95));
+      border-radius: 14px;
+      padding: 2rem;
     }
 
-    header {
-      margin-bottom: 18px;
-    }
+    header { margin-bottom: 1.5rem; }
 
     .tiny-tag-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 10px;
-      font-size: 11px;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--muted);
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
     }
 
     .tiny-tag {
-      padding: 3px 7px;
+      padding: 4px 10px;
       border-radius: 999px;
-      background: rgba(15,23,42,0.85);
-      border: 1px solid rgba(55,65,81,0.75);
+      background: rgba(45, 134, 89, 0.1);
+      border: 1px solid var(--border);
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       white-space: nowrap;
     }
 
@@ -79,335 +113,502 @@
       width: 6px;
       height: 6px;
       border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 10px rgba(56,189,248,0.9);
+      background: var(--pool-gold);
+      box-shadow: 0 0 8px rgba(218, 165, 32, 0.6);
     }
 
     h1 {
-      font-size: 1.65rem;
-      margin: 2px 0 6px;
+      font-size: 2rem;
+      margin: 8px 0 12px;
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 8px;
       align-items: baseline;
+      background: linear-gradient(90deg, var(--pool-green), var(--pool-gold), var(--pool-brown));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    h1 span.main {
-      font-weight: 650;
-    }
+    h1 span.main { font-weight: 700; }
 
     h1 span.sub {
       font-size: 0.9rem;
       font-weight: 400;
-      color: var(--muted);
+      color: var(--text-muted);
+      -webkit-text-fill-color: var(--text-muted);
     }
 
     .lead {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 12px;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.6;
     }
 
     .pill-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      font-size: 0.7rem;
-      color: var(--muted);
-      margin-bottom: 8px;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
     }
 
     .pill {
-      padding: 4px 8px;
+      padding: 6px 12px;
       border-radius: 999px;
-      background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(31,41,55,0.9);
+      background: rgba(45, 134, 89, 0.1);
+      border: 1px solid var(--border);
     }
 
     form {
-      margin-top: 10px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(31,41,55,0.9);
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px 14px;
+      gap: 16px 18px;
     }
 
     @media (max-width: 640px) {
-      form {
-        grid-template-columns: 1fr;
-      }
-      .shell {
-        border-radius: 18px;
-      }
-      .card {
-        border-radius: 16px;
-      }
+      form { grid-template-columns: 1fr; }
+      .card { padding: 1.5rem; }
+      h1 { font-size: 1.5rem; }
     }
 
-    .full-span {
-      grid-column: 1 / -1;
-    }
+    .full-span { grid-column: 1 / -1; }
 
     label {
       display: block;
-      margin-bottom: 4px;
-      font-size: 0.78rem;
+      margin-bottom: 6px;
+      font-size: 0.8rem;
       text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--muted);
+      letter-spacing: 0.1em;
+      color: var(--pool-gold);
+      font-weight: 600;
     }
 
     input,
     select,
     textarea {
       width: 100%;
-      padding: 8px 9px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: rgba(15,23,42,0.95);
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 2px solid var(--pool-brown);
+      background: linear-gradient(135deg, rgba(45, 134, 89, 0.1), rgba(139, 69, 19, 0.1));
       color: var(--text);
-      font-size: 0.88rem;
+      font-size: 0.95rem;
       outline: none;
-      transition: border-color 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+      transition: all 0.3s ease;
     }
 
     input::placeholder,
     textarea::placeholder {
-      color: #4b5563;
+      color: #666;
     }
 
     input:focus,
     select:focus,
     textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(56,189,248,0.6);
-      background: #020617;
+      border-color: var(--pool-gold);
+      box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.3), 0 0 15px rgba(218, 165, 32, 0.2);
+      background: linear-gradient(135deg, rgba(45, 134, 89, 0.15), rgba(139, 69, 19, 0.15));
     }
 
     textarea {
-      min-height: 92px;
+      min-height: 100px;
       resize: vertical;
+      font-family: inherit;
     }
 
     .hint {
-      margin-top: 3px;
-      font-size: 0.72rem;
-      color: var(--muted);
+      margin-top: 4px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4;
     }
 
     .footer-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      margin-top: 8px;
-      font-size: 0.75rem;
-      color: var(--muted);
+      gap: 16px;
+      margin-top: 12px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
     }
 
     .btn-primary {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 9px 16px;
-      border-radius: 999px;
-      border: none;
-      background: radial-gradient(circle at top left, #38bdf8, #0ea5e9, #0369a1);
-      color: #0b1120;
-      font-size: 0.9rem;
-      font-weight: 600;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: 2px solid var(--pool-gold);
+      background: linear-gradient(135deg, var(--pool-green), var(--pool-green-dark));
+      color: var(--pool-gold);
+      font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
-      box-shadow:
-        0 12px 30px rgba(15,23,42,0.9),
-        0 0 0 1px rgba(15,23,42,1);
+      transition: all 0.3s ease;
+      box-shadow: 
+        0 4px 15px rgba(45, 134, 89, 0.3), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
       white-space: nowrap;
     }
 
-    .btn-primary span.icon {
-      font-size: 1.05rem;
-      margin-top: 1px;
-    }
-
     .btn-primary:hover {
-      filter: brightness(1.05);
-      transform: translateY(-0.5px);
+      background: linear-gradient(135deg, #0D9488, var(--pool-green));
+      transform: translateY(-2px);
+      box-shadow: 
+        0 6px 20px rgba(45, 134, 89, 0.5), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
 
     .btn-primary:active {
-      transform: translateY(0.5px);
-      box-shadow:
-        0 4px 16px rgba(15,23,42,0.9),
-        0 0 0 1px rgba(15,23,42,1);
+      transform: translateY(0);
     }
 
-    .service-note {
-      font-size: 0.72rem;
-      opacity: 0.85;
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
 
-    .service-note strong {
-      color: var(--accent);
-      font-weight: 500;
+    .btn-primary span.icon {
+      font-size: 1.1rem;
     }
 
     .brand-footer {
-      margin-top: 10px;
-      font-size: 0.7rem;
-      color: var(--muted);
-      text-align: right;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .brand-footer a {
+      color: var(--pool-gold);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .brand-footer a:hover {
+      color: #ffd700;
+    }
+
+    /* Formspree success/error messages */
+    .form-message {
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border: 2px solid;
+      display: none;
+    }
+
+    .form-message.success {
+      background: rgba(45, 134, 89, 0.2);
+      border-color: var(--pool-green);
+      color: var(--pool-gold);
+      display: block;
+    }
+
+    .form-message.error {
+      background: rgba(139, 69, 19, 0.2);
+      border-color: #cc0000;
+      color: #ff6b6b;
+      display: block;
+    }
+
+    .form-message.loading {
+      background: rgba(218, 165, 32, 0.1);
+      border-color: var(--pool-gold);
+      color: var(--pool-gold);
+      display: block;
     }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <div class="card">
-      <header>
-        <div class="tiny-tag-row">
-          <span class="tiny-tag">
-            <span class="tiny-dot"></span>
-            Corner Pocket – Call it Corner Intake
-          </span>
-          <span class="tiny-tag">EchoStory • Custom Story-Songs</span>
-          <span class="tiny-tag">EchoVerse • Swamp-Hop Audio</span>
-        </div>
-        <h1>
-          <span class="main">Start a Corner, Story, or Song</span>
-          <span class="sub">Corner Pocket · EchoStory × EchoVerse · AeroVista LLC</span>
-        </h1>
-        <p class="lead">
-          Use this form while we’re wiring up Square:
-          start a Call it Corner conversation, an EchoStory package, a custom EchoVerse track,
-          or a broader AeroVista collaboration. We’ll follow up with details and payment options.
-        </p>
-        <div class="pill-row">
-          <span class="pill">🎱 Corner Pocket energy</span>
-          <span class="pill">👂 1:1 story intake</span>
-          <span class="pill">🎧 Custom music & sound</span>
-        </div>
-      </header>
-
-      <form
-        action="https://formspree.io/f/YOUR_FORM_ID_HERE"
-        method="POST"
-      >
-        <!-- Contact info -->
-        <div class="full-span">
-          <label for="name">Your name</label>
-          <input id="name" name="name" type="text" required placeholder="What should we call you?" />
-        </div>
-
-        <div>
-          <label for="email">Email</label>
-          <input id="email" name="_replyto" type="email" required placeholder="you@example.com" />
-          <p class="hint">We’ll use this to confirm details and send options.</p>
-        </div>
-
-        <div>
-          <label for="contact_pref">Preferred contact style</label>
-          <select id="contact_pref" name="contact_preference">
-            <option value="">Choose one (optional)</option>
-            <option value="email-only">Email only</option>
-            <option value="short-call">Short call after email</option>
-            <option value="async-notes">Async notes / questions first</option>
-          </select>
-        </div>
-
-        <!-- What they want -->
-        <div>
-          <label for="service_type">What are you here for?</label>
-          <select id="service_type" name="service_type" required>
-            <option value="">Select one</option>
-            <option value="call-it-corner">
-              Call it Corner — guided conversation / processing
-            </option>
-            <option value="echostory">
-              EchoStory — custom story-song / memory package
-            </option>
-            <option value="echoverse-track">
-              EchoVerse — custom Swamp-Hop / audio piece
-            </option>
-            <option value="aerovista-build">
-              AeroVista — tech / creative build (site, system, or experience)
-            </option>
-            <option value="not-sure">
-              Not sure yet — help me pick
-            </option>
-          </select>
-        </div>
-
-        <div>
-          <label for="budget_range">Approximate budget range</label>
-          <select id="budget_range" name="budget_range">
-            <option value="">Still feeling this out</option>
-            <option value="under-250">$0 – $250 (simple / starter)</option>
-            <option value="250-750">$250 – $750 (more custom detail)</option>
-            <option value="750-2000">$750 – $2,000 (deep work / multi-piece)</option>
-            <option value="2000-plus">$2,000+ (full experience / multi-layered)</option>
-          </select>
-        </div>
-
-        <!-- Details -->
-        <div class="full-span">
-          <label for="project_heartbeat">What’s the heartbeat of this project?</label>
-          <textarea
-            id="project_heartbeat"
-            name="project_heartbeat"
-            placeholder="Tell us who this is for, what’s going on, and what you hope they feel when they see or hear the final thing."
-            required
-          ></textarea>
-        </div>
-
-        <div class="full-span">
-          <label for="timeline">Timing / deadline</label>
-          <input
-            id="timeline"
-            name="timeline"
-            type="text"
-            placeholder="Example: “Soft goal in March, hard deadline before April 20”"
-          />
-          <p class="hint">
-            If this is tied to an event (birthday, memorial, launch, etc.), include the date.
-          </p>
-        </div>
-
-        <div class="full-span">
-          <label for="vibe_notes">Vibes, references, and non-negotiables</label>
-          <textarea
-            id="vibe_notes"
-            name="vibe_notes"
-            placeholder="Links to songs, moods, colors, phrases, or boundaries we should respect. Anything you absolutely want in—or absolutely want left out."
-          ></textarea>
-        </div>
-
-        <!-- Hidden + anti-spam -->
-        <input type="hidden" name="_subject"
-               value="New Corner Pocket / Call it Corner / EchoStory / EchoVerse inquiry" />
-
-        <div style="display:none;">
-          <label>Leave this field empty</label>
-          <input name="_gotcha" type="text" />
-        </div>
-
-        <!-- Footer row -->
-        <div class="full-span footer-row">
-          <div class="service-note">
-            <strong>What happens next?</strong><br />
-            We review your notes, follow up with questions if needed,
-            and then share clear options and Square payment links before anything is booked.
+  <div class="container">
+    <div class="shell">
+      <div class="card">
+        <header>
+          <div class="tiny-tag-row">
+            <span class="tiny-tag">
+              <span class="tiny-dot"></span>
+              Corner Pocket · CDA Pool League Store
+            </span>
+            <span class="tiny-tag">Printful Fulfillment</span>
           </div>
-          <button class="btn-primary" type="submit">
-            <span class="icon">➤</span>
-            <span>Send to the Corner</span>
-          </button>
-        </div>
-      </form>
+          <h1>
+            <span class="main">🎱 Corner Pocket Merch Order</span>
+            <span class="sub">Submit your gear request · We'll invoice + ship</span>
+          </h1>
+          <p class="lead">
+            Browse the <strong>CDA Pool League Store</strong> on this site,
+            then use this form to request what you want. We'll confirm details,
+            send a payment link, and fulfill through Printful.
+          </p>
+          <div class="pill-row">
+            <span class="pill">🎱 Hoodies, tees, hats, stickers</span>
+            <span class="pill">📦 Printful on-demand shipping</span>
+          </div>
+        </header>
 
-      <div class="brand-footer">
-        Corner Pocket · Operated within the AeroVista LLC ecosystem · EchoStory × EchoVerse
+        <!-- Formspree messages -->
+        <div id="form-message" class="form-message" role="alert"></div>
+
+        <form
+          id="order-form"
+          action="https://formspree.io/f/YOUR_FORM_ID_HERE"
+          method="POST"
+        >
+          <!-- Contact info -->
+          <div class="full-span">
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" required placeholder="What should we call you?" />
+          </div>
+
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="_replyto" type="email" required placeholder="you@example.com" />
+            <p class="hint">We'll use this to confirm your order and send payment details.</p>
+          </div>
+
+          <div>
+            <label for="phone">Phone (optional)</label>
+            <input id="phone" name="phone" type="tel" placeholder="If you prefer text updates" />
+          </div>
+
+          <!-- Order details -->
+          <div class="full-span">
+            <label for="item_1">Item 1 – Product name</label>
+            <input
+              id="item_1"
+              name="item_1_name"
+              type="text"
+              required
+              placeholder="Copy product title from the store (e.g., 'CDA Pool League Hoodie')"
+            />
+            <p class="hint">Tip: highlight + copy the exact title from the store section above.</p>
+          </div>
+
+          <div>
+            <label for="item_1_size">Item 1 – Size</label>
+            <input id="item_1_size" name="item_1_size" type="text" placeholder="M, L, XL, etc." />
+          </div>
+
+          <div>
+            <label for="item_1_color">Item 1 – Color</label>
+            <input id="item_1_color" name="item_1_color" type="text" placeholder="Black, White, etc." />
+          </div>
+
+          <div>
+            <label for="item_1_qty">Item 1 – Quantity</label>
+            <input id="item_1_qty" name="item_1_quantity" type="number" min="1" value="1" />
+          </div>
+
+          <div>
+            <label for="item_1_notes">Item 1 – Notes</label>
+            <input
+              id="item_1_notes"
+              name="item_1_notes"
+              type="text"
+              placeholder="Any print notes (back print, name, etc.)"
+            />
+          </div>
+
+          <!-- Optional second item -->
+          <div class="full-span">
+            <label for="item_2">Item 2 (optional) – Product name</label>
+            <input
+              id="item_2"
+              name="item_2_name"
+              type="text"
+              placeholder="Second item title from the store"
+            />
+          </div>
+
+          <div>
+            <label for="item_2_size">Item 2 – Size</label>
+            <input id="item_2_size" name="item_2_size" type="text" placeholder="M, L, XL, etc." />
+          </div>
+
+          <div>
+            <label for="item_2_color">Item 2 – Color</label>
+            <input id="item_2_color" name="item_2_color" type="text" placeholder="Black, White, etc." />
+          </div>
+
+          <div>
+            <label for="item_2_qty">Item 2 – Quantity</label>
+            <input id="item_2_qty" name="item_2_quantity" type="number" min="1" value="1" />
+          </div>
+
+          <div>
+            <label for="item_2_notes">Item 2 – Notes</label>
+            <input
+              id="item_2_notes"
+              name="item_2_notes"
+              type="text"
+              placeholder="Any print notes for this item"
+            />
+          </div>
+
+          <!-- Shipping + misc -->
+          <div class="full-span">
+            <label for="shipping_address">Shipping city / country</label>
+            <input
+              id="shipping_address"
+              name="shipping_region"
+              type="text"
+              placeholder="Example: Coeur d'Alene, ID · USA"
+            />
+            <p class="hint">
+              We'll confirm full shipping address and cost when we reply.
+            </p>
+          </div>
+
+          <div class="full-span">
+            <label for="extra_notes">Anything else we should know?</label>
+            <textarea
+              id="extra_notes"
+              name="extra_notes"
+              placeholder="Deadlines (league start, birthday), gift notes, or anything special."
+            ></textarea>
+          </div>
+
+          <!-- Hidden + anti-spam -->
+          <input
+            type="hidden"
+            name="_subject"
+            value="New Corner Pocket merch order request (Printful)"
+          />
+          <input
+            type="hidden"
+            name="source_page"
+            value="https://aerovista-us.github.io/cornerpocket/"
+          />
+
+          <div style="display:none;">
+            <label>Leave this field empty</label>
+            <input name="_gotcha" type="text" />
+          </div>
+
+          <!-- Footer row -->
+          <div class="full-span footer-row">
+            <div>
+              We'll review your request, confirm totals and shipping,
+              then send you a Square payment link before fulfilling via Printful.
+            </div>
+            <button class="btn-primary" type="submit" id="submit-btn">
+              <span class="icon">➤</span>
+              <span>Submit Order Request</span>
+            </button>
+          </div>
+        </form>
+
+        <div class="brand-footer">
+          CDA Pool Leagues · Corner Pocket Store · Fulfilled via Printful · 
+          <a href="https://aerovista.us" target="_blank">AeroVista LLC</a>
+        </div>
       </div>
     </div>
   </div>
+
+  <script>
+    // Pre-populate form from URL parameters (when coming from Buy Now button)
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const productName = urlParams.get('product_name');
+      const productPrice = urlParams.get('product_price');
+      const productId = urlParams.get('product_id');
+
+      if (productName) {
+        // Pre-fill the first item name field
+        const item1NameInput = document.getElementById('item_1');
+        if (item1NameInput) {
+          item1NameInput.value = productName;
+          
+          // Add a visual indicator that this was pre-filled
+          item1NameInput.style.borderColor = 'var(--pool-gold)';
+          item1NameInput.style.boxShadow = '0 0 0 2px rgba(218, 165, 32, 0.3), 0 0 15px rgba(218, 165, 32, 0.2)';
+          
+          // Show price as a hint if available
+          if (productPrice) {
+            const hint = item1NameInput.nextElementSibling;
+            if (hint && hint.classList.contains('hint')) {
+              hint.textContent = `Pre-filled from store • Price: ${productPrice}`;
+              hint.style.color = 'var(--pool-gold)';
+            } else {
+              // Create hint if it doesn't exist
+              const newHint = document.createElement('p');
+              newHint.className = 'hint';
+              newHint.textContent = `Pre-filled from store • Price: ${productPrice}`;
+              newHint.style.color = 'var(--pool-gold)';
+              item1NameInput.parentNode.insertBefore(newHint, item1NameInput.nextSibling);
+            }
+          }
+        }
+      }
+    })();
+
+    // Formspree form handling
+    (function() {
+      const form = document.getElementById('order-form');
+      const messageDiv = document.getElementById('form-message');
+      const submitBtn = document.getElementById('submit-btn');
+
+      if (!form) return;
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // Show loading state
+        messageDiv.className = 'form-message loading';
+        messageDiv.textContent = '⏳ Sending your order request...';
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="icon">⏳</span><span>Sending...</span>';
+
+        try {
+          const formData = new FormData(form);
+          const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+
+          if (response.ok) {
+            // Success
+            messageDiv.className = 'form-message success';
+            messageDiv.textContent = '✅ Order request submitted successfully! We\'ll review your request and send you a payment link soon.';
+            form.reset();
+            
+            // Scroll to message
+            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          } else {
+            // Error from Formspree
+            const data = await response.json();
+            throw new Error(data.error || 'Something went wrong. Please try again.');
+          }
+        } catch (error) {
+          // Network or other error
+          messageDiv.className = 'form-message error';
+          messageDiv.textContent = `❌ Error: ${error.message || 'Failed to submit. Please check your connection and try again.'}`;
+          
+          // Scroll to message
+          messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span class="icon">➤</span><span>Submit Order Request</span>';
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
