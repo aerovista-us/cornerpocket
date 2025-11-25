@@ -368,6 +368,12 @@
       min-width: 100px;
     }
 
+    .cart-item-options select option {
+      background: rgba(10, 15, 10, 0.95);
+      color: var(--text);
+      padding: 8px;
+    }
+
     .cart-item-options select:focus {
       border-color: var(--pool-gold);
       outline: none;
@@ -581,6 +587,12 @@
       transition: all 0.3s ease;
     }
 
+    select option {
+      background: rgba(10, 15, 10, 0.95);
+      color: var(--text);
+      padding: 8px;
+    }
+
     input::placeholder,
     textarea::placeholder {
       color: #666;
@@ -751,6 +763,103 @@
       display: block;
     }
 
+    .checkout-items-summary {
+      background: linear-gradient(
+        135deg,
+        rgba(45, 134, 89, 0.08),
+        rgba(139, 69, 19, 0.08)
+      );
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+    }
+
+    .checkout-items-summary-title {
+      font-weight: 600;
+      color: var(--pool-gold);
+      font-size: 0.9rem;
+      font-family: 'Bebas Neue', 'Oswald', system-ui;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .checkout-item-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+    }
+
+    .checkout-item-line:last-child {
+      border-bottom: none;
+    }
+
+    .checkout-item-name {
+      flex: 1;
+      color: var(--text);
+    }
+
+    .checkout-item-details {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-left: 12px;
+    }
+
+    .checkout-item-price {
+      color: var(--pool-green);
+      font-weight: 600;
+      margin-left: 12px;
+      white-space: nowrap;
+    }
+
+    .checkout-item-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      margin-right: 12px;
+    }
+
+    .checkout-items-with-image {
+      display: flex;
+      align-items: center;
+    }
+
+    .checkout-section {
+      margin-bottom: 24px;
+    }
+
+    .checkout-section.user-input {
+      background: linear-gradient(
+        135deg,
+        rgba(45, 134, 89, 0.12),
+        rgba(139, 69, 19, 0.12)
+      );
+      border: 2px solid var(--pool-gold);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(218, 165, 32, 0.1);
+    }
+
+    .checkout-section.user-input label {
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+
+    .checkout-section.user-input input,
+    .checkout-section.user-input textarea {
+      padding: 14px 16px;
+      font-size: 1rem;
+    }
+
     .item-row {
       background: linear-gradient(
         135deg,
@@ -851,11 +960,14 @@
               <span class="cart-summary-label">Total:</span>
               <span class="cart-summary-value" id="cart-total">$0.00</span>
             </div>
-            <div style="margin-top: 16px; display: flex; gap: 12px;">
-              <a href="../index.html#storeBtn" class="btn-secondary" style="flex: 1; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
-                <span>← Return to Shopping</span>
+            <div style="margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap;">
+              <a href="../index.html" class="btn-secondary" style="flex: 1; min-width: 150px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+                <span>← Return to Music</span>
               </a>
-              <button class="btn-primary" id="proceed-to-checkout" style="flex: 1;">
+              <button class="btn-secondary" id="return-to-shopping" style="flex: 1; min-width: 150px;">
+                <span>🛒 Return to Shopping</span>
+              </button>
+              <button class="btn-primary" id="proceed-to-checkout" style="flex: 1; min-width: 150px;">
                 <span class="icon">➤</span>
                 <span>Proceed to Checkout</span>
               </button>
@@ -871,66 +983,74 @@
             method="POST"
             data-formspree-id="xzzoepbk"
           >
-            <!-- Contact info -->
-            <div class="full-span">
-              <label for="name">Your name</label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                required
-                placeholder="What should we call you?"
-              />
+            <!-- Cart items summary (compact) -->
+            <div id="checkout-items" class="full-span checkout-items-summary"></div>
+
+            <!-- User input section (expanded) -->
+            <div class="full-span checkout-section user-input">
+              <h3 style="color: var(--pool-gold); margin-top: 0; margin-bottom: 20px; font-family: 'Bebas Neue', 'Oswald', system-ui; font-size: 1.5rem; letter-spacing: 0.05em; text-transform: uppercase;">Your Information</h3>
+              
+              <div class="full-span">
+                <label for="name">Your name</label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  required
+                  placeholder="What should we call you?"
+                />
+              </div>
+
+              <div>
+                <label for="email">Email</label>
+                <input
+                  id="email"
+                  name="_replyto"
+                  type="email"
+                  required
+                  placeholder="you@example.com"
+                />
+                <p class="hint">
+                  We'll use this to confirm your order and send payment details.
+                </p>
+              </div>
+
+              <div>
+                <label for="phone">Phone (optional)</label>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="If you prefer text updates"
+                />
+              </div>
             </div>
 
-            <div>
-              <label for="email">Email</label>
-              <input
-                id="email"
-                name="_replyto"
-                type="email"
-                required
-                placeholder="you@example.com"
-              />
-              <p class="hint">
-                We'll use this to confirm your order and send payment details.
-              </p>
-            </div>
+            <!-- Shipping + misc (expanded) -->
+            <div class="full-span checkout-section user-input">
+              <h3 style="color: var(--pool-gold); margin-top: 0; margin-bottom: 20px; font-family: 'Bebas Neue', 'Oswald', system-ui; font-size: 1.5rem; letter-spacing: 0.05em; text-transform: uppercase;">Shipping & Notes</h3>
+              
+              <div class="full-span">
+                <label for="shipping_address">Shipping city / country</label>
+                <input
+                  id="shipping_address"
+                  name="shipping_region"
+                  type="text"
+                  placeholder="Example: Coeur d'Alene, ID · USA"
+                />
+                <p class="hint">
+                  We'll confirm full shipping address and cost when we reply.
+                </p>
+              </div>
 
-            <div>
-              <label for="phone">Phone (optional)</label>
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                placeholder="If you prefer text updates"
-              />
-            </div>
-
-            <!-- Cart items will be auto-populated here -->
-            <div id="checkout-items" class="full-span"></div>
-
-            <!-- Shipping + misc -->
-            <div class="full-span">
-              <label for="shipping_address">Shipping city / country</label>
-              <input
-                id="shipping_address"
-                name="shipping_region"
-                type="text"
-                placeholder="Example: Coeur d'Alene, ID · USA"
-              />
-              <p class="hint">
-                We'll confirm full shipping address and cost when we reply.
-              </p>
-            </div>
-
-            <div class="full-span">
-              <label for="extra_notes">Anything else we should know?</label>
-              <textarea
-                id="extra_notes"
-                name="extra_notes"
-                placeholder="Deadlines (league start, birthday), gift notes, or anything special."
-              ></textarea>
+              <div class="full-span">
+                <label for="extra_notes">Anything else we should know?</label>
+                <textarea
+                  id="extra_notes"
+                  name="extra_notes"
+                  placeholder="Deadlines (league start, birthday), gift notes, or anything special."
+                ></textarea>
+              </div>
             </div>
 
             <!-- Hidden + anti-spam -->
@@ -1194,64 +1314,59 @@
 
     function populateCheckoutForm() {
       const checkoutItems = document.getElementById('checkout-items');
-      checkoutItems.innerHTML = '';
-
+      
+      // Build compact summary with images
+      let summaryHtml = '<div class="checkout-items-summary-title">Order Summary</div>';
+      
+      // Get the first item's image for display (best one)
+      let displayImage = null;
+      if (cart.length > 0 && cart[0].image) {
+        displayImage = cart[0].image;
+      }
+      
+      // Show image if available
+      if (displayImage) {
+        summaryHtml += `<div class="checkout-items-with-image" style="margin-bottom: 12px;">
+          <img src="../${displayImage}" alt="Product" class="checkout-item-image" onerror="this.style.display='none';" />
+          <div style="flex: 1;">
+        `;
+      }
+      
       cart.forEach((item, index) => {
         const itemNum = index + 1;
-        const itemHtml = `
-          <div class="item-row">
-            <div class="item-row-header">
-              <div class="item-row-title">Item ${itemNum} – ${item.title}</div>
-              <div class="item-row-price">${item.price} × ${item.quantity}</div>
+        const price = parseFloat(item.price.replace('$', '')) || 0;
+        const total = price * item.quantity;
+        const details = [];
+        if (item.size) details.push(`Size: ${item.size}`);
+        if (item.color) details.push(`Color: ${item.color}`);
+        if (item.notes) details.push(`Notes: ${item.notes}`);
+        
+        summaryHtml += `
+          <div class="checkout-item-line">
+            <div style="flex: 1;">
+              <div class="checkout-item-name">${item.title} × ${item.quantity}</div>
+              ${details.length > 0 ? `<div class="checkout-item-details">${details.join(' · ')}</div>` : ''}
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-              <div>
-                <label for="item_${itemNum}_size">Size</label>
-                <input
-                  id="item_${itemNum}_size"
-                  name="item_${itemNum}_size"
-                  type="text"
-                  value="${item.size || ''}"
-                  placeholder="M, L, XL, etc."
-                />
-              </div>
-              <div>
-                <label for="item_${itemNum}_color">Color</label>
-                <input
-                  id="item_${itemNum}_color"
-                  name="item_${itemNum}_color"
-                  type="text"
-                  value="${item.color || ''}"
-                  placeholder="Black, White, etc."
-                />
-              </div>
-              <div>
-                <label for="item_${itemNum}_qty">Quantity</label>
-                <input
-                  id="item_${itemNum}_qty"
-                  name="item_${itemNum}_quantity"
-                  type="number"
-                  min="1"
-                  value="${item.quantity}"
-                />
-              </div>
-              <div>
-                <label for="item_${itemNum}_notes">Notes</label>
-                <input
-                  id="item_${itemNum}_notes"
-                  name="item_${itemNum}_notes"
-                  type="text"
-                  value="${item.notes || ''}"
-                  placeholder="Any print notes"
-                />
-              </div>
-            </div>
-            <input type="hidden" name="item_${itemNum}_name" value="${item.title}" />
-            <input type="hidden" name="item_${itemNum}_price" value="${item.price}" />
+            <div class="checkout-item-price">${formatPrice(total)}</div>
           </div>
         `;
-        checkoutItems.innerHTML += itemHtml;
+        
+        // Hidden inputs for form submission
+        summaryHtml += `
+          <input type="hidden" name="item_${itemNum}_name" value="${item.title}" />
+          <input type="hidden" name="item_${itemNum}_price" value="${item.price}" />
+          <input type="hidden" name="item_${itemNum}_quantity" value="${item.quantity}" />
+          <input type="hidden" name="item_${itemNum}_size" value="${item.size || ''}" />
+          <input type="hidden" name="item_${itemNum}_color" value="${item.color || ''}" />
+          <input type="hidden" name="item_${itemNum}_notes" value="${item.notes || ''}" />
+        `;
       });
+      
+      if (displayImage) {
+        summaryHtml += '</div></div>';
+      }
+      
+      checkoutItems.innerHTML = summaryHtml;
     }
 
     // Global functions for cart actions
@@ -1301,6 +1416,9 @@
     document.getElementById('checkout-view-btn').addEventListener('click', () => switchView('checkout'));
     document.getElementById('proceed-to-checkout').addEventListener('click', () => switchView('checkout'));
     document.getElementById('back-to-cart').addEventListener('click', () => switchView('cart'));
+    document.getElementById('return-to-shopping').addEventListener('click', () => {
+      window.location.href = '../index.html#storeBtn';
+    });
 
     // Pre-populate from URL parameters (when coming from Buy Now button)
     (async function () {
